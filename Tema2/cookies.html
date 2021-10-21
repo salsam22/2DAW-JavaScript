@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cookies</title>
+</head>
+
+<body>
+    <h1 id="h1">Benvinguts a un llarg viatge</h1>
+    <div id="formulari">
+        <p>Indica el color del titol:</p>
+        <input type="radio" name="color" id="roig"> Roig
+        <br>
+        <input type="radio" name="color" id="blau"> Blau
+        <br>
+        <input type="radio" name="color" id="verd"> Verd
+        <br>
+        <input type="radio" name="color" id="morat"> Morat
+        <br>
+        <br>
+        <button type="button" onclick="verColor()">Envia el color</button>
+    </div>
+    <br>
+    <button type="button" onclick="verForm()">Torna a mostrar el formulari</button>
+    <button type="button" onclick="eliminarCookie()">Elimina les cookies</button>
+    <script>
+
+        if (document.cookie == "color=roig") {
+            document.getElementById("h1").style.color = "red";
+        } else if (document.cookie == "color=blau") {
+            document.getElementById("h1").style.color = "blue";
+        } else if (document.cookie == "color=verd") {
+            document.getElementById("h1").style.color = "green";
+        } else if (document.cookie == "color=morat") {
+            document.getElementById("h1").style.color = "purple";
+        }
+
+        function verColor() {
+            if (document.getElementById("roig").checked) {
+                var colorTitol = "roig";
+                document.cookie = "color=" + colorTitol;
+                document.getElementById("h1").style.color = "red";
+            } else if (document.getElementById("blau").checked) {
+                var colorTitol = "blau";
+                document.cookie = "color=" + colorTitol;
+                document.getElementById("h1").style.color = "blue";
+            } else if (document.getElementById("verd").checked) {
+                var colorTitol = "verd";
+                document.cookie = "color=" + colorTitol;
+                document.getElementById("h1").style.color = "green";
+            } else if (document.getElementById("morat").checked) {
+                var colorTitol = "morat";
+                document.cookie = "color=" + colorTitol;
+                document.getElementById("h1").style.color = "purple";
+            } else {
+
+            }
+            document.getElementById("formulari").style.visibility = "hidden";
+        }
+
+        function verForm() {
+            document.getElementById("formulari").style.visibility = "visible";
+        }
+
+        function eliminarCookie() {
+            document.cookie = "color= ";
+        }
+
+    </script>
+</body>
+
+</html>

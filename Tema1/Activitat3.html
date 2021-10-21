@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Activitat3</title>
+</head>
+<body>
+    <h1>Minim i maxim d'un array</h1>
+
+    <script>
+    let numeroRandom;
+    let arrayAleatori = new Array;
+    let major = 0;
+    let menut = 50;
+
+    for (let i = 0; i < 25; i++) {
+        numeroRandom = Math.floor((Math.random()*50)+1);
+        arrayAleatori.push(numeroRandom);
+    }
+
+    for (let j = 0; j < 25; j++) {
+        if (arrayAleatori[j] > major){
+            major = arrayAleatori[j];
+        }
+        if (arrayAleatori[j] < menut){
+            menut = arrayAleatori[j];
+        }
+    }
+
+    document.write("El numero mes menut del array " + arrayAleatori + " es: " + menut + ". <br/>El numero mes gran del array " + arrayAleatori + " es: " + major + ".");
+    
+    </script>
+</body>
+</html>

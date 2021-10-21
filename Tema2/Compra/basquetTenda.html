@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="basquet.js"></script>
+    <title>Basquet de la tenda</title>
+</head>
+
+<body onload="afegirTaula(), contador()">
+    <h1>La tenda del camp per Salvador Tarazona Samper</h1>
+    <table id="taula" border="solid 1px black">
+        <tr>
+            <th></th>
+            <th>Descripció</th>
+            <th>Preu</th>
+            <th>Quantitat</th>
+        </tr>
+    </table>
+<h1>Basquet</h1>
+    <table id="taula2" border="solid 1px black">
+        <tr>
+            <th>Producte</th>
+            <th>Quantitat</th>
+            <th>Preu</th>
+        </tr>
+    </table>
+<h2><span id="preuTotal">0</span>€</h2>
+<h3 id="temps"></h3>
+<p><button onclick="netejarLocal()">Eliminar tot el localStorage</button></p>
+</body>
+
+
+</html>

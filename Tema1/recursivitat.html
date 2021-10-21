@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Recursivitat</title>
+</head>
+
+<body>
+    <h1>Recursivitat</h1>
+    <p style="font-size: 20px">Busca el numero aleatori entre <strong>0</strong> i <strong>50</strong> clicant el botó de buscar.</p>
+    <p><button style="font-size: 18px" id="busca" onclick="inici()">Busca</button></p>
+    <p id="fraseNumero" style="visibility: hidden; font-size: 20px">El numero aleatori trobat es el <strong id="numeroAleatori"></strong>.</p>
+    <p id="fraseIntents" style="visibility: hidden; font-size: 20px">El numero d'intents per trobar el numero aleatori es de <strong id="numeroIntents"></strong>.</p>
+    <p id="fraseDivisors" style="visibility: hidden; font-size: 20px">Els divisors que ha gastat per trobar el numero aleatori es <strong id="numeroDivisors"></strong>.</p>
+
+    <script>
+
+        var random = Math.floor(Math.random() * 50);
+        var aux;
+        var minim = 0;
+        var maxim = 50;
+        var intents = 0;
+        var divisors = new Array;
+
+        function inici() {
+            var numero = recursivitat(random, minim, maxim);
+            document.getElementById("numeroAleatori").innerHTML = numero;
+            document.getElementById("fraseNumero").style.visibility = "visible";
+            document.getElementById("numeroIntents").innerHTML = intents;
+            document.getElementById("fraseIntents").style.visibility = "visible";
+            document.getElementById("numeroDivisors").innerHTML = divisors;
+            document.getElementById("fraseDivisors").style.visibility = "visible";
+        }
+
+        function recursivitat(num, min, max) {
+            aux = Math.trunc((min + max) / 2);
+            divisors.push(aux);
+            if (num < aux) {
+                intents++;
+                max = aux;
+                recursivitat(num, min, max, intents);
+            } else if (num > aux) {
+                intents++;
+                min = aux;
+                recursivitat(num, min, max, intents);
+            }
+            return num;
+        }
+    </script>
+</body>
+
+</html>

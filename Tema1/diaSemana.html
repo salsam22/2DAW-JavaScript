@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dia de la semana</title>
+</head>
+<body>
+    <h1>Dia de la semana</h1>
+
+    <script>
+        let dias = ["Domenica","Lunedi","Martedi","Mercoledi","Giovedi","Venerdi","Sabato"];
+        let numeroDia = new Date().getDay();
+        let nombreDiaIta = dias[numeroDia];
+        let nombreDiaEsp = "";
+        if (nombreDiaIta == "Domenica") {
+            nombreDiaEsp = "Diumenge";
+        } else if (nombreDiaIta == "Lunedi") {
+            nombreDiaEsp = "Dilluns";
+        } else if (nombreDiaIta == "Martedi") {
+            nombreDiaEsp = "Dimarts";
+        } else if (nombreDiaIta == "Miercoledi") {
+            nombreDiaEsp = "Dimecres";
+        } else if (nombreDiaIta == "Giovedi") {
+            nombreDiaEsp = "Dijous";
+        } else if (nombreDiaIta == "Vernedi") {
+            nombreDiaEsp = "Divendres";
+        } else if (nombreDiaIta == "Sabato") {
+            nombreDiaEsp = "Dissabte";
+        } else {
+            document.write("ERROR")
+        }
+        document.write("<p>El día de la setmana actual en Italià és <strong>" + nombreDiaIta + "</strong>, y en Valencià és <strong>" + nombreDiaEsp + "</strong>.</p>");
+    </script>
+</body>
+</html>

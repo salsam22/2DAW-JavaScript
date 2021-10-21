@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cambiar</title>
+</head>
+<body>
+    <h1>Cambio de imágenes con JavaScript</h1>
+    <img id="myFPimage" onclick="cambiaPic()" src="https://static1.elcorreo.com/www/multimedia/202006/07/media/cortadas/opi-portocarrero-kLeC-U110431176796zMD-624x385@El%20Correo.jpg" width="100" height="180">
+    <p>Haz click sobre las letras para cambiarlas.</p>
+    <script>
+    function cambiaPic(){
+        var image = document.getElementById('myFPimage');
+        if (image.src.match("green")) {
+            image.src = "https://static1.elcorreo.com/www/multimedia/202006/07/media/cortadas/opi-portocarrero-kLeC-U110431176796zMD-624x385@El%20Correo.jpg";
+        } else {
+            image.src = "http://www.endubitem.bike/wp-content/uploads/2016/10/fondo-verd-difuminat-300x169.jpg";
+        }
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>ToDo List</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="./style.css" />
+    <script>
+        window.onload = inici;
+        var i = 0;
+        var tasques = new Array;
+
+        function inici(){
+            if (localStorage.length > 0){
+                afegirTasques();
+            } else {
+
+    }
+        }
+
+        function afegirTasca() {
+            var tasca = document.getElementById("novaTasca").value;
+
+            var tasca = {
+                tasca: tasca,
+            }
+            
+            localStorage.setItem("Tasca" + i, JSON.stringify(tasca));
+            
+            document.getElementById("llista").innerHTML += "<li><input type='checkbox' id=tasca" + i + " onclick='funcion(this)' name='tasca0'>" + tasca.tasca + "</li>";
+            i++;
+            document.getElementById("novaTasca").value = "";
+        }
+
+
+        function afegirTasques() {
+
+            for (var j = 0; j < localStorage.length; j++) {
+
+                if (JSON.parse(localStorage.getItem("Tasca" + j)) != null) {
+
+                    var tasca = (JSON.parse(localStorage.getItem("Tasca" + j)));
+                    document.getElementById("llista").innerHTML += "<li><input type='checkbox' id=tasca" + j + " onclick='funcion(this)' name='tasca0'>" + tasca.tasca + "</li>";
+                    i = j+1;
+                }
+
+            }
+        }
+
+        function funcion(element){
+            var id = element.id;
+            if (document.getElementById("id").checked){
+                document.getElementById("id").style.textDecoration = "line-through";
+            }
+
+        }
+
+    </script>
+
+</head>
+
+<body>
+
+    <header>
+        <h1 id="header">Llistat de tasques a realitzar </h1>
+
+
+    </header>
+    <section>
+
+        <div id="areaTasques">
+            <ul id="llista">
+                <!--<li> <input type="checkbox" id="tasca0" onclick="funcion(this);" name="tasca0"></li>-->
+            </ul>
+
+
+        </div>
+
+    </section>
+    <footer>
+        <label for="novaTasca">Tasca nova: </label></label><input type="text" onblur="afegirTasca()" id="novaTasca"
+            size="50"></footer></input>
+    </footer>
+</body>
+
+</html>

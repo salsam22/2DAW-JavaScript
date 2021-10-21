@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>ToDo List</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="./style.css" />
+<script>
+function crearTasca (elem){
+
+let tasca = {
+    "descripcio": elem.value,
+    "baixa": false
+}
+let arrayTasques = new Array();
+
+// obtindre de localStorage
+if (JSON.parse(localStorage.getItem("tasques")) != null){
+    arrayTasques = JSON.parse(localStorage.getItem("tasques"));
+}
+
+arrayTasques.push(tasca);
+
+localStorage.setItem("tasques", JSON.stringify(arrayTasques));
+
+carregarTasques();
+}
+    
+function carregarTasques (){
+    let arrayTasques = new Array();
+    // obtindre de localStorage
+    if (JSON.parse(localStorage.getItem("tasques")) != null){
+        arrayTasques = JSON.parse(localStorage.getItem("tasques"));
+    }
+    let llista = document.getElementById("llista");
+    llista.innerHTML="";
+    let aux = "";
+    arrayTasques.forEach( ( elem, index ) => {
+        aux = "<li> <input type=\"checkbox\" id=\"tasca" + index + "\" onclick=\"donarBaixa(this);\" name=\"tasca"+ index +"\">"+ elem.descripcio +"</li>";
+        llista.innerHTML+=aux;
+        
+        if (elem.baixa){
+        let llista = document.getElementsByTagName("li");
+        llista[index].style.textDecoration = "line-through";
+    }
+    });    
+
+}
+
+function donarBaixa (elem){
+    let arrayTasques = new Array();
+    // obtindre de localStorage
+        arrayTasques = JSON.parse(localStorage.getItem("tasques"));
+    let id = elem.id.substring(5);
+    // modificar baixa de tasca 
+    arrayTasques[id];
+    console.log(arrayTasques[id].baixa=true);
+    localStorage.setItem("tasques", JSON.stringify(arrayTasques));
+    // canvi d'estil 
+    let llista = document.getElementsByTagName("li");
+    llista[id].style.textDecoration = "line-through";
+
+}
+
+</script>
+
+</head>
+
+<body onload ="carregarTasques()">
+  
+    <header>
+       <h1 id="header">Llistat de tasques a realitzar </h1>
+       
+       
+    </header>
+    <section>
+       
+           <div id="areaTasques">
+               <ul id="llista">
+               <!-- <li> <input type="checkbox" id="tasca0" onclick="funcion(this);" name="tasca0">Nova taska</li>-->
+               </ul>
+
+
+           </div>
+       
+    </section>
+    <footer>
+        <label for="novaTasca">Tasca nova: </label><input type="text" id="novaTasca" size="50" onblur="crearTasca(this);"></footer></input> 
+    </footer> 
+</body>
+</html>

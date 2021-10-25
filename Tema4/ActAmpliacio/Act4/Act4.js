@@ -7,10 +7,11 @@ function inici() {
 
 function buscar(){
     var palabra = document.getElementById("palabra").value;
-    var texto = document.getElementById("text").innerHTML;
+    var texto = document.getElementById("text").innerText;
     console.log(typeof(palabra));
     
     console.log(texto);
-    var coor = texto.indexOf(palabra);
+    var coor = texto.search(palabra);
     console.log(coor);
+    
 }

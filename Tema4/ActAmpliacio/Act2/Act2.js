@@ -1,7 +1,7 @@
 window.onload = inici;
 
 function inici() {
-    document.getElementById("enviar").addEventListener("click", enviar);
+    document.getElementById("enviar").addEventListener("click", numerar);
 }
 
 function enviar() {

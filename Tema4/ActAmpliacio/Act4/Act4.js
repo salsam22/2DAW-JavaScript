@@ -7,11 +7,11 @@ function inici() {
 
 function buscar(){
     var palabra = document.getElementById("palabra").value;
-    var texto = document.getElementById("text").innerText;
-    console.log(typeof(palabra));
+    var texto = document.getElementById("text");
+    var text = texto.textContent;
     
-    console.log(texto);
-    var coor = texto.search(palabra);
+    console.log(text);
+    var coor = text.indexOf(palabra); //retorna la cantitat de caracters que hi ha fins la primera paraula que troba que correspon a la que introdueixes
     console.log(coor);
     
 }

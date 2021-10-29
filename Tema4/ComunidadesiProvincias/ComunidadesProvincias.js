@@ -152,26 +152,42 @@ var comunitats = [{
 ];
 
 function inicio() {
-    selects();
+    mostrarComunitats();
 }
 
-function selects() {
-    var div = document.createElement("div");
-    var select = document.createElement("select");
-    for (let i = 0; i < comunitats.length; i++) {
-        for (let j = 0; j < comunitats.length; j++) {
-            var option = document.createElement("option");
-            /*var value = document.createAttribute("value", comunitats[0]);
-            option.appendChild(value);*/
-            var txt = document.createTextNode(comunitats.comunitat);    
-            option.appendChild(txt);
-            select.appendChild(option);
-        }
-        
-    }
-    div.appendChild(select);
-    document.body.appendChild(div);
-        
-
+function mostrarComunitats() {
     
+    var select = document.getElementById("comunitats");
+    comunitats.forEach((element,index) => {
+        var option = document.createElement("option");
+        option.setAttribute("value", index);
+        var txt = document.createTextNode(element.comunitat);
+        option.appendChild(txt);
+        select.appendChild(option);
+    });
+    obtenirComunitat()
+}
+
+function obtenirComunitat() {
+    document.getElementById("comunitats").addEventListener("change", mostrarProvincies);
+}
+
+function mostrarProvincies(){
+    var num = document.getElementById("comunitats").value;
+    eliminarProvinciesAnteriors();
+    var select = document.getElementById("provincies");
+    comunitats[num].provincies.forEach((element,index) => {
+        var option = document.createElement("option");
+        option.setAttribute("value", index);
+        var txtOption = document.createTextNode(element);
+        option.appendChild(txtOption);
+        select.appendChild(option);
+    });
+}
+
+function eliminarProvinciesAnteriors() {
+    var select = document.getElementById("provincies");
+    for (let i = select.options.length; i >= 0; i--) {
+        select.remove(i);
+    }
 }

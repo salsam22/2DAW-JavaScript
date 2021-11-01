@@ -1,17 +1,17 @@
 window.onload = iniciar;
 
 function iniciar() {
-    document.getElementById("enviar").addEventListener("click",validar,false);
+    document.getElementById("enviar").addEventListener("click", validar, false);
 }
 
 function validarDNI() {
     var element = document.getElementById("DNI");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
-            error2(element,"Tienes que introducir un DNI.");
+            error2(element, "Tienes que introducir un DNI.");
         }
         if (element.validity.patternMismatch) {
-            error2(element, "El DNI tiene que tener 9 digitos y una letra mayuscula.");
+            error2(element, "El DNI tiene que tener el formato 99999999Z.");
         }
         //error(element);
         return false;
@@ -29,6 +29,20 @@ function validarTel() {
             error2(element, "El telefono tiene que tener el formato 999 999 999.");
         }
         //error(element);
+        return false;
+    }
+    return true;
+}
+
+function validarFecha() {
+    var element = document.getElementById("fecha");
+    if (!element.checkValidity()) {
+        if (element.validity.valueMissing) {
+            error2(element, "Tienes que introducir una fecha.");
+        }
+        if (element.validity.patternMismatch) {
+            error2(element, "La fecha tiene que tener el formato YYYY/mm/dd.");
+        }
         return false;
     }
     return true;
@@ -78,7 +92,7 @@ function validarURL() {
 
 function validar(e) {
     borrarError();
-    if (validarDNI() && validarTel() && validarMatr() && validarEmail() && validarURL() && confirm("Confirma si vols enviar el formulari")) {
+    if (validarDNI() && validarTel() && validarFecha() && validarMatr() && validarEmail() && validarURL() && confirm("Confirma si vols enviar el formulari")) {
         return true;
     } else {
         e.preventDefault();

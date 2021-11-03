@@ -1,7 +1,7 @@
 window.onload = iniciar;
 
 function iniciar() {
-    document.getElementById("enviar").addEventListener("click", validar, false);
+   document.getElementsByTagName("form")[0].addEventListener("submit", validar, false);
 }
 
 function validarDNI() {
@@ -32,7 +32,7 @@ function validarFecha() {
     if (patternFecha.test(element.value)) {
         return true;
     } else {
-        error2(element, "La fecha tiene que tener el formato YYYY/mm/dd.");
+        error2(element, "Error: Fecha incompleta o invalida.");
         return false;
     }
 }
@@ -43,7 +43,7 @@ function validarMatr() {
     if (patternMatr.test(element.value)) {
         return true;
     } else {
-        error2(element, "La matricula tiene que tener el formato 9999 ZZZ.");
+        error2(element, "Error: Matricula incompleta o invalida.");
         return false;
     }
 }
@@ -54,31 +54,30 @@ function validarEmail() {
     if (patternEmail.test(element.value)) {
         return true;
     } else {
-        error2(element, "El email tiene que estar correctamente escrito.");
+        error2(element, "Error: Email incompleto o invalido.");
         return false;
     }
 }
 
 function validarURL() {
     var patternURL = new RegExp(/^(ftp|http|https)[^ "]+$/);
-    var element = document.getElementById("URL");
+    var element = document.getElementById("url");
     if (patternURL.test(element.value)) {
         return true;
     } else {
-        error2(element, "El URL tiene que estar correctamente escrito.");
+        error2(element, "Error: URL incompleta o invalida.");
         return false;
     }
 }
 
 function validar(e) {
     borrarError();
-    if (validarDNI() && validarTel() && validarFecha() && validarMatr() && validarEmail() && validarURL() && confirm("hola")) {
-        console.log("hola");
+    if (validarDNI() && validarTel() && validarFecha() && validarMatr() && validarEmail() && validarURL() && confirm("Confirma si vols enviar el formulari")) {
         return true;
     } else {
         e.preventDefault();
         return false;
-    } console.log("hola");
+    } 
 }
 
 function error2(element, missatge) {

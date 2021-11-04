@@ -14,45 +14,45 @@
 <body>
     <fieldset>
         <legend style="font-size: 30px; font-weight: 700">Alta d'Usuari</legend>
-        <form action="" method="POST">
+        <form action="algo.php" method="POST" id="elFormulari">
             <div>
                 <label for="nombre">Introduce tu nombre: </label>
-                <input type="text" id="nombre" name="nombre" placeholder="Entre 2 y 20 caracteres" pattern="^[A-Za-z- ]{5,20}$" title="El nombre tiene que tener entre 2 y 20 caracteres">
+                <input onblur="validarNombre()" type="text" id="nombre" name="nombre" placeholder="Entre 2 y 20 caracteres" pattern="^[A-Za-z- ]{5,20}$" title="El nombre tiene que tener entre 2 y 20 caracteres" required>
             </div>
             <br>
             <div>
                 <label for="apellido">Introduce tu apellido: </label>
-                <input type="text" id="apellido" name="apellido" placeholder="Entre 2 y 30 caracteres" pattern="^[A-Za-z- ]{5,30}$" title="El apellido tiene que tener entre 2 y 30 caracteres">
+                <input onblur="validarApellido()" type="text" id="apellido" name="apellido" placeholder="Entre 2 y 30 caracteres" pattern="^[A-Za-z- ]{5,30}$" title="El apellido tiene que tener entre 2 y 30 caracteres" required>
             </div>
             <br>
             <div>
                 <label for="DNI">Introduce tu DNI: </label>
-                <input type="text" id="DNI" name="DNI" placeholder="Formato: 99999999Z" pattern="^\d{8}[A-Z]{1}$" title="El DNI tiene que ser con el siguiente formato 99999999Z.">
+                <input onblur="validarDNI()" type="text" id="DNI" name="DNI" placeholder="Formato: 99999999Z" pattern="^\d{8}[A-Z]{1}$" title="El DNI tiene que ser con el siguiente formato 99999999Z." required>
             </div>
             <br>
             <div>
                 <label for="email">Introduce tu correo electronico: </label>
-                <input type="text" id="email" name="email" placeholder="Formato: ej@ej.com" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="El correo electronico tiene que ser con el siguiente formato example@example.com">
+                <input onblur="validarEmail()" type="text" id="email" name="email" placeholder="Formato: ej@ej.com" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="El correo electronico tiene que ser con el siguiente formato example@example.com" required>
             </div>
             <br>
             <div>
                 <label for="repeEmail">Repite tu correo electronico: </label>
-                <input type="text" id="repeEmail" name="repeEmail" placeholder="Formato: ej@ej.com" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="El correo electronico tiene que ser con el siguiente formato example@example.com">
+                <input onblur="validarEmailRepe(), validarIgualdad()" type="text" id="repeEmail" name="repeEmail" placeholder="Formato: ej@ej.com" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="El correo electronico tiene que ser con el siguiente formato example@example.com" required>
             </div>
             <br>
             <div>
                 <label for="nickname">Introduce tu nickname: </label>
-                <input type="text" id="nickname" name="nickname" placeholder="Entre 2 y 8 letras" pattern="^[A-Za-z]{2,8}$" title="Entre 2 y 8 letras.">
+                <input onblur="validarNickname()" type="text" id="nickname" name="nickname" placeholder="Entre 2 y 8 letras" pattern="^[A-Za-z]{2,8}$" title="Entre 2 y 8 letras." required>
             </div>
             <br>
             <div>
                 <label for="password">Introduce la contraseña: </label>
-                <input type="text" id="password" name="password" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.">
+                <input onblur="validarPassword()" type="text" id="password" name="password" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula." required>
             </div>
             <br>
             <div>
                 <label for="repePassword">Repite la contraseña: </label>
-                <input type="text" id="repePassword" name="repePassword" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula.">
+                <input onblur="validarPasswordRepe()" type="text" id="repePassword" name="repePassword" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula." required>
             </div>
             <br>
             <!--
@@ -62,6 +62,7 @@
             </div>
             -->
             <br>
+            <p id="missatgeError"></p>
             <div>
                 <input type="submit" id="enviar" name="enviar" value="Enviar">
                 <input type="reset" id="borrar" name="borrar" value="Borrar">

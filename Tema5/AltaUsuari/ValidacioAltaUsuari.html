@@ -37,7 +37,7 @@
             <br>
             <div>
                 <label for="repeEmail">Repite tu correo electronico: </label>
-                <input onblur="validarEmailRepe(), validarIgualdad()" type="text" id="repeEmail" name="repeEmail" placeholder="Formato: ej@ej.com" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="El correo electronico tiene que ser con el siguiente formato example@example.com" required>
+                <input onblur="validarEmailRepe()" type="text" id="repeEmail" name="repeEmail" placeholder="Formato: ej@ej.com" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" title="El correo electronico tiene que ser con el siguiente formato example@example.com" required>
             </div>
             <br>
             <div>
@@ -47,20 +47,18 @@
             <br>
             <div>
                 <label for="password">Introduce la contraseña: </label>
-                <input onblur="validarPassword()" type="text" id="password" name="password" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula." required>
+                <input onblur="validarPassword()" type="password" id="password" name="password" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula." required>
             </div>
             <br>
             <div>
                 <label for="repePassword">Repite la contraseña: </label>
-                <input onblur="validarPasswordRepe()" type="text" id="repePassword" name="repePassword" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula." required>
+                <input onblur="validarPasswordRepe()" type="password" id="repePassword" name="repePassword" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula." required>
             </div>
             <br>
-            <!--
             <div>
                 <label for="captcha">CAPTCHA</label>
-                <input type="text" id="captcha" name="captcha">
+                <input onblur="validarCaptcha()" type="text" id="captcha" name="captcha" required>
             </div>
-            -->
             <br>
             <p id="missatgeError"></p>
             <div>

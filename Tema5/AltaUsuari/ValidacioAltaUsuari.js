@@ -1,6 +1,10 @@
 window.onload = iniciar;
 
 function iniciar() {
+    var rand1 = Math.floor(Math.random()*10);
+    var rand2 = Math.floor(Math.random()*10);
+    var input = document.getElementById("captcha");
+    input.setAttribute("placeholder",rand1+" + "+rand2+" =");
     document.getElementById("enviar").addEventListener("click",validar,false);
 }
 
@@ -81,12 +85,11 @@ function validarEmailRepe() {
         }
         return false;
     }
-    
-    //borrarError();
+    borrarError();
     return true;
 }
 
-function validarIgualdad(){
+function validarIgualdadEmail(){
     var nuevo = document.getElementById("repeEmail");
     var original = document.getElementById("email").value;
     if (original == nuevo.value) {
@@ -95,6 +98,7 @@ function validarIgualdad(){
     error2(nuevo, "La repeticion del correo electronico no es igual al que has introducido antes.");
     return false;
 }
+
 
 function validarNickname() {
     esborrarError();
@@ -144,9 +148,35 @@ function validarPasswordRepe() {
     return true;
 }
 
+function validarIgualdadPassword(){
+    var nuevo = document.getElementById("repePassword");
+    var original = document.getElementById("password").value;
+    if (original == nuevo.value) {
+        return true;
+    }
+    error2(nuevo, "La repeticion de la contraseña no es igual a la que has introducido antes.");
+    return false;
+}
+
+function validarCaptcha() {
+    esborrarError();
+    var element = document.getElementById("captcha");
+    if (!element.checkValidity()) {
+        if (element.validity.valueMissing) {
+            error2(element, "Tienes que introducir el captcha.");
+        }
+        if (rand1+rand2 != element.value) {
+            error2(element, "El captcha esta mal calculado, calculalo de nuevo.")
+        }
+        return false;
+    }
+    borrarError();
+    return true;
+}
+
 function validar(e) {
     esborrarError();
-    if (validarNombre() && validarApellido() && validarDNI() && validarEmail() && validarEmailRepe() && validarIgualdad() && validarNickname() && validarPassword() && validarPasswordRepe() && confirm("Seguro que quieres enviar el formulario???")) {
+    if (validarNombre() && validarApellido() && validarDNI() && validarEmail() && validarEmailRepe() && validarIgualdadEmail() && validarNickname() && validarPassword() && validarPasswordRepe() && validarIgualdadPassword() && validarCaptcha() && confirm("Seguro que quieres enviar el formulario???")) {
         return true;
     } else {
         e.preventDefault();

@@ -1,10 +1,10 @@
 window.onload = iniciar;
+var randSR = Math.floor(Math.random()*2);
+var rand1 = Math.floor(Math.random()*10);
+var rand2 = Math.floor(Math.random()*10);
 
 function iniciar() {
-    var rand1 = Math.floor(Math.random()*10);
-    var rand2 = Math.floor(Math.random()*10);
-    var input = document.getElementById("captcha");
-    input.setAttribute("placeholder",rand1+" + "+rand2+" =");
+    mostrarCaptcha();
     document.getElementById("enviar").addEventListener("click",validar,false);
 }
 
@@ -158,17 +158,35 @@ function validarIgualdadPassword(){
     return false;
 }
 
+function mostrarCaptcha() {
+    
+    var input = document.getElementById("captcha");
+    if (randSR == 0) {
+        input.setAttribute("placeholder",rand1+" + "+rand2+" =");
+    } else if (randSR == 1) {
+        input.setAttribute("placeholder",rand1+" - "+rand2+" =");
+    }
+}
+
 function validarCaptcha() {
     esborrarError();
     var element = document.getElementById("captcha");
-    if (!element.checkValidity()) {
-        if (element.validity.valueMissing) {
-            error2(element, "Tienes que introducir el captcha.");
-        }
+    if (element.validity.valueMissing) {
+        error2(element, "Tienes que introducir el captcha.");
+        return false;
+    } else if (element.validity.patternMismatch) {
+            error2(element, "El captcha tienen que ser 1 o 2 numeros positivos o negativos.");
+            return false;
+    } else if (randSR == 0) {
         if (rand1+rand2 != element.value) {
             error2(element, "El captcha esta mal calculado, calculalo de nuevo.")
+            return false;
         }
-        return false;
+    } else if (randSR == 1) {
+        if (rand1-rand2 != element.value) {
+            error2(element, "El captcha esta mal calculado, calculalo de nuevo.")
+            return false;
+        }
     }
     borrarError();
     return true;

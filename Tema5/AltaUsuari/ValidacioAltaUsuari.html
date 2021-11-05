@@ -8,12 +8,29 @@
         .error {
             border: red solid 2px;
         }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            background-color: rgba(62, 146, 255, 0.424);
+        }
+
+        fieldset {
+            background-color: rgba(62, 146, 255, 0.233);
+        }
+
+        legend {
+            font-size: 35px; 
+            font-weight: bold;
+        }
     </style>
     <title>Validació d'Alta d'Usuari</title>
 </head>
 <body>
     <fieldset>
-        <legend style="font-size: 30px; font-weight: 700">Alta d'Usuari</legend>
+        <legend>Alta d'Usuari</legend>
         <form action="algo.php" method="POST" id="elFormulari">
             <div>
                 <label for="nombre">Introduce tu nombre: </label>
@@ -47,17 +64,17 @@
             <br>
             <div>
                 <label for="password">Introduce la contraseña: </label>
-                <input onblur="validarPassword()" type="password" id="password" name="password" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula." required>
+                <input onblur="validarPassword()" type="password" id="password" name="password" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{6,15}$" title="La contraseña (entre 6 y 15, con una o más mayúsculas, 1 o más números y 1 o más caracteres)." required>
             </div>
             <br>
             <div>
                 <label for="repePassword">Repite la contraseña: </label>
-                <input onblur="validarPasswordRepe()" type="password" id="repePassword" name="repePassword" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$" title="La contraseña debe tener al entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula y al menos una mayúscula." required>
+                <input onblur="validarPasswordRepe()" type="password" id="repePassword" name="repePassword" placeholder="Ejemplo: w3Unpocodet0d0" pattern="^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{6,15}$" title="La repeticion de la contraseña (entre 6 y 15, con una o más mayúsculas, 1 o más números, 1 o más caracteres y ser igual que la contraseña anterior)." required>
             </div>
             <br>
             <div>
                 <label for="captcha">CAPTCHA</label>
-                <input onblur="validarCaptcha()" type="text" id="captcha" name="captcha" required>
+                <input onblur="validarCaptcha()" type="text" id="captcha" name="captcha" pattern="^(-\d{0,2}||\d{0,2})$" required>
             </div>
             <br>
             <p id="missatgeError"></p>

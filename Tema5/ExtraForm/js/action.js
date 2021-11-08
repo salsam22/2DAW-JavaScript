@@ -65,7 +65,7 @@ function contarPalabras() {
     var textoTroceado = texto.split (" ");
     var numero = textoTroceado.length;
     var numeroPalabras = document.getElementById("descripcion");
-    var text = document.createTextNode("Descripcio. " + numero + " palabras.");
+    var text = document.createTextNode("Descripció. " + numero + " palabras.");
     numeroPalabras.removeChild(numeroPalabras.lastChild);
     numeroPalabras.appendChild(text);
 }

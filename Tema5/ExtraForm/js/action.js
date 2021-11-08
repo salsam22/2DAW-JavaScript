@@ -5,8 +5,10 @@ function inici() {
     document.getElementById("tipo").addEventListener("change", cambiarImagen, false);
     document.getElementById("serie").addEventListener("blur", validarNumeroSerie, false);
     document.getElementById("mostrarDescripcio").addEventListener("click", mostrarDescripcio, false);
-    document.getElementById("descripcio").addEventListener("keydown", contarPalabras, false);
+    document.getElementById("descripcio").addEventListener("keyup", contarPalabras, false);
+    document.getElementById("descripcio").addEventListener("blur", validarDescripcio, false);
     document.getElementById("enviar").addEventListener("click", validar, false);
+    
 }
 
 function cambiarImagen() {
@@ -19,9 +21,11 @@ function cambiarImagen() {
 // i acabar amb el níumero 1 o 2 , o amb la lletra A
 
 function validarNumeroSerie() {
+    esborrarError();
     var pattern = /^\d{3}[A-Z]{4}([1-2]|[A])$/;
     var element = document.getElementById("serie");
     if (pattern.test(element.value)) {
+        borrarError();
         return true;
     } else {
         error2(element, "Error: Numero de serie incompleto o invalido. Comprueba que sea: 3 numeros, 4 letras mayusculas y un 1, o un 2, o una A mayuscula.")
@@ -48,20 +52,47 @@ function esborrarError() {
 function mostrarDescripcio() {
     var element = document.getElementById("fDescripcio");
     element.setAttribute("style", "display:block;");
+    var element2 = document.getElementById("descripcio");
+    element2.setAttribute("required", "required");
 }
 
 function contarPalabras() {
-    var element = document.getElementById("descripcio").value;
-    var splitTexto = element.split(/ /);
-    console.log(splitTexto);
+    var texto = document.getElementById("descripcio").value;
+    texto = texto.replace (/\r?\n/g," ");
+    texto = texto.replace (/[ ]+/g," ");
+    texto = texto.replace (/^ /,"");
+    texto = texto.replace (/ $/,"");
+    var textoTroceado = texto.split (" ");
+    var numero = textoTroceado.length;
+    var numeroPalabras = document.getElementById("descripcion");
+    var text = document.createTextNode("Descripcio. " + numero + " palabras.");
+    numeroPalabras.removeChild(numeroPalabras.lastChild);
+    numeroPalabras.appendChild(text);
+}
+
+function validarDescripcio() {
+    esborrarError();
+    var element = document.getElementById("descripcio");
+    if (!element.checkValidity()) {
+        if (element.validity.valueMissing) {
+            error2(element, "Error: La descripcion es requerida.");
+        }
+        return false;
+    }
+    borrarError();
+    return true;
 }
 
 function validar(e) {
     esborrarError();
-    if (validarNumeroSerie() && confirm("Seguro que quieres enviar el formulario???")) {
+    if (validarNumeroSerie() && validarDescripcio() && confirm("Seguro que quieres enviar el formulario???")) {
         return true;
     } else {
         e.preventDefault();
         return false;
     }
+}
+
+function borrarError() {
+    document.getElementById("capaError").innerHTML = "";
 }

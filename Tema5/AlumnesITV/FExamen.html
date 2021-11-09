@@ -33,7 +33,7 @@
                  <fieldset>
                     <legend>Vehicle</legend>
                     <label>Matricula</label>
-                    </br><input type="text" id="matricula" required>
+                    </br><input type="text" id="matricula" pattern="^\d{4}[A-Z]{3}$|^[A-Z]{1}\d{4}[A-Z]{2}$|^[A-Z]{1}\d{4}[A-Z]{3}$" required>
                 </br><label class="formInfo"> La matrícula no puede contener espacios ni símbolos. Ejemplos: A1234BB, 1234BBB, B1234BBB</label>
                     </br><label>Tipus Combustible</label>
                     </br><select id="conbustible">
@@ -59,11 +59,11 @@
                 <fieldset>
                     <legend>Dades personals</legend>
                     <label>Nom i Cognom</label>
-                    </br><input type="text" id="nom" size="30" required>
+                    </br><input type="text" id="nom" size="30" pattern="^[A-Z a-z]+$" required>
                     </br><label>telèfon</label>
-                    </br><input type="text" id="telefon" required>
+                    </br><input type="text" id="telefon" pattern="^\d{3}\s\d{3}\s\d{3}$$" required>
                     </br><label>Email</label>
-                    </br><input type="text" id="email" required>
+                    </br><input type="text" id="email" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
                        
                 </fieldset>
                     <input type="checkbox" id="protecioDades" required><label> he llegit i acepte els Termes i condicions d'aquesta web. </label></br>

@@ -2,12 +2,15 @@
 window.onload = inici;
 
 function inici() {
+
     document.getElementById("alc").addEventListener("change", estacionsProvincia, false);
     document.getElementById("vlc").addEventListener("change", estacionsProvincia, false);
     document.getElementById("ctl").addEventListener("change", estacionsProvincia, false);
     document.getElementById("matricula").addEventListener("blur", validarMatricula, false);
+
     document.getElementById("nom").addEventListener("blur", validarNomCognom, false);
     document.getElementById("telefon").addEventListener("blur", validarTelefono, false);
+    document.getElementById("email").addEventListener("blur", validarEmail, false);
     document.getElementById("Enviar").addEventListener("click", validar, false);
 }
 
@@ -15,9 +18,9 @@ function estacionsProvincia() {
     var provincia = document.getElementsByName("provincia");
     var select = document.getElementById("estacio");
     eliminarEstacionsAnteriors();
-    for (var i = 0; i < 3; i++) {
-        if(provincia[i].checked) {
-            estacions[i].estacio.forEach((element,index) => {
+    for (var i = 0; i < estacions.length; i++) {
+        if (provincia[i].checked) {
+            estacions[i].estacio.forEach((element, index) => {
                 var option = document.createElement("option");
                 option.setAttribute("value", index);
                 var txtOption = document.createTextNode(element);
@@ -30,15 +33,25 @@ function estacionsProvincia() {
 
 function eliminarEstacionsAnteriors() {
     var select = document.getElementById("estacio");
-    for(let i = select.options.length; i>= 0; i--) {
+    for (let i = select.options.length; i >= 0; i--) {
         select.remove(i);
     }
 }
 
 function validarProvincia() {
+    var provincia = document.getElementsByName("provincia");
+    for (let i = 0; i < estacions.length; i++) {
+        if (provincia[i].checked) {
+            return true;
+        }
+    }
+    error2(provincia, "Error: Tienes que seleccionar una provincia.");
+}
+
+function validarEstacio() {
     var element = document.getElementById("estacio");
     if (element.value == "Selecciona una opció") {
-        error2(element, "Error:Tienes que seleccionar una provincia y una estación.")
+        error2(element, "Error:Tienes que seleccionar una estación.")
         return false;
     }
     return true;
@@ -49,7 +62,7 @@ function validarMatricula() {
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
             error2(element, "Error: La matricula es requerida.");
-        } 
+        }
         if (element.validity.patternMismatch) {
             error2(element, "Error: No sigue el patron indicado.")
         }
@@ -66,6 +79,58 @@ function validarCombustible() {
     }
     return true;
 }
+
+function validarData() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+
+    let fechaMax = new Date(yyyy + "-" + (mm + 1) + "-" + dd);
+    let fechaMin = new Date(yyyy + "-" + mm + "-" + dd);
+
+    var element = document.getElementById("date");
+
+    if (!element.checkValidity()) {
+        console.log(element.value);
+        if (element.validity.valueMissing) {
+            error2(element, "Error: La fecha es requerida.");
+        }
+        return false;
+    }
+
+    let fechaEnviada = new Date(element.value);
+
+    if (fechaEnviada < fechaMin) {
+        error2(element, "Error: La fecha es anterior a la de hoy.");
+        return false;
+    }
+    if (fechaEnviada >= fechaMax) {
+        error2(element, "Error: La fecha es posterior a la permitida.");
+        return false;
+    }
+    if (fechaEnviada.getDay() == 0) {
+        error2(element, "Error: Los domingos no se trabaja.");
+        return false;
+    }
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function validarNomCognom() {
     var element = document.getElementById("nom");
@@ -119,7 +184,7 @@ function validarCheckBox() {
 }
 
 function validar(e) {
-    if (validarProvincia() && validarMatricula() && validarCombustible() && validarNomCognom() && validarTelefono() && validarEmail() && validarCheckBox() && confirm("Seguro que quieres enviar el formulario?")) {
+    if (validarProvincia() && validarMatricula() && validarCombustible() && validarData() && validarNomCognom() && validarTelefono() && validarEmail() && validarCheckBox() && confirm("Seguro que quieres enviar el formulario?")) {
         return true;
     }
     e.preventDefault();
@@ -128,5 +193,5 @@ function validar(e) {
 
 function error2(element, missatge) {
     document.getElementById("missatgeError").innerHTML = missatge;
-    document.location.href="#miModal";
+    document.location.href = "#miModal";
 }

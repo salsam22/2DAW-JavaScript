@@ -82,12 +82,11 @@ function validarCombustible() {
 
 function validarData() {
     var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();
+    var dias = 30;
+    let fechaMax = new Date();
 
-    let fechaMax = new Date(yyyy + "-" + (mm + 1) + "-" + dd);
-    let fechaMin = new Date(yyyy + "-" + mm + "-" + dd);
+
+    fechaMax.setDate(fechaMax.getDate() + dias);
 
     var element = document.getElementById("date");
 
@@ -101,11 +100,11 @@ function validarData() {
 
     let fechaEnviada = new Date(element.value);
 
-    if (fechaEnviada < fechaMin) {
+    if (fechaEnviada < today) {
         error2(element, "Error: La fecha es anterior a la de hoy.");
         return false;
     }
-    if (fechaEnviada >= fechaMax) {
+    if (fechaEnviada > fechaMax) {
         error2(element, "Error: La fecha es posterior a la permitida.");
         return false;
     }

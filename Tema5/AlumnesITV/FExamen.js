@@ -7,11 +7,13 @@ function inici() {
     document.getElementById("vlc").addEventListener("change", estacionsProvincia, false);
     document.getElementById("ctl").addEventListener("change", estacionsProvincia, false);
     document.getElementById("matricula").addEventListener("blur", validarMatricula, false);
-
+    document.getElementById("date").addEventListener("blur", validarData, false);
+    document.getElementById("hora").addEventListener("blur", validarHora, false);
     document.getElementById("nom").addEventListener("blur", validarNomCognom, false);
     document.getElementById("telefon").addEventListener("blur", validarTelefono, false);
     document.getElementById("email").addEventListener("blur", validarEmail, false);
     document.getElementById("Enviar").addEventListener("click", validar, false);
+    mostrarHores();
 }
 
 function estacionsProvincia() {
@@ -82,29 +84,23 @@ function validarCombustible() {
 
 function validarData() {
     var today = new Date();
-    var dias = 30;
-    let fechaMax = new Date();
-
-
-    fechaMax.setDate(fechaMax.getDate() + dias);
-
+    var days = 30;
+    let maxDate = new Date();
+    maxDate.setDate(maxDate.getDate() + days);
     var element = document.getElementById("date");
-
     if (!element.checkValidity()) {
         console.log(element.value);
         if (element.validity.valueMissing) {
-            error2(element, "Error: La fecha es requerida.");
+            error2(element, "Error: Tienes que indicar una fecha.");
         }
         return false;
     }
-
     let fechaEnviada = new Date(element.value);
-
     if (fechaEnviada < today) {
         error2(element, "Error: La fecha es anterior a la de hoy.");
         return false;
     }
-    if (fechaEnviada > fechaMax) {
+    if (fechaEnviada > maxDate) {
         error2(element, "Error: La fecha es posterior a la permitida.");
         return false;
     }
@@ -115,21 +111,44 @@ function validarData() {
     return true;
 }
 
+function mostrarHores() {
+    var hora = document.getElementById("hora");
+    for (let i = 7; i < 20; i++) {
+        for (let j = 0; j < 60; j = j + 15) {
+            var option = document.createElement("option");
+            if (i <= 9) {
+                option.setAttribute("value", "0" + i + ":" + j);
+                if (j == 0) {
+                    var text = document.createTextNode("0" + i + ":0" + j);
+                } else {
+                    var text = document.createTextNode("0" + i + ":" + j);
+                }
+                option.appendChild(text);
+                hora.appendChild(option);
+            } else {
+                option.setAttribute("value", i + ":" + j);
+                if (j == 0) {
+                    var text = document.createTextNode(i + ":0" + j);
+                } else {
+                    var text = document.createTextNode(i + ":" + j);
+                }
+                option.appendChild(text);
+                hora.appendChild(option);
+            }
+        }
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function validarHora() {
+    var hora = document.getElementById("hora");
+    for (let i = 1; i < hora.length; i++) {
+        if (hora[i].selected) {
+            return true;
+        }
+    }
+    error2(hora, "Error: Tienes que indicar una hora.");
+    return false;
+}
 
 function validarNomCognom() {
     var element = document.getElementById("nom");
@@ -183,7 +202,7 @@ function validarCheckBox() {
 }
 
 function validar(e) {
-    if (validarProvincia() && validarMatricula() && validarCombustible() && validarData() && validarNomCognom() && validarTelefono() && validarEmail() && validarCheckBox() && confirm("Seguro que quieres enviar el formulario?")) {
+    if (validarProvincia() && validarMatricula() && validarCombustible() && validarData() && validarHora() && validarNomCognom() && validarTelefono() && validarEmail() && validarCheckBox() && confirm("Seguro que quieres enviar el formulario?")) {
         return true;
     }
     e.preventDefault();

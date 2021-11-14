@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exàmen tipo test</title>
+    <link rel="stylesheet" href="./test.css">
+   <script src="./JSON_Test.js"></script>
+    <script> 
+        $(document).ready(inicio);
+        var cont = 0;
+        var acerts = 0;
+        var reset = true;
+        function inicio() {
+            
+
+            $("#iniciar").click(reiniciar);
+
+
+            function reiniciar() {
+                if (reset == true) {
+                    $("#panel").show("slow");
+                    reset = false;
+                    carregarPreguntes();
+                } else {
+                    $("#panel").hide(1500);
+                    $("#resultat").hide(1500);
+                    $("#pregunta").empty();
+                    $("#respostes").empty();
+                    $("#acerts").text("0");
+                    $("#total").text("0");
+                    cont = 0;
+                    acerts = 0;
+                    reset = true;
+                    $("#panel").show("slow");
+                    reiniciar();
+                }
+            }
+
+            function carregarPreguntes() {            
+                $("#pregunta").html(test[cont].pregunta);
+                $("#respostes").empty();
+                $("#respostes").append("<ul id=respuestas>");
+                for (var i = 0; i < test[cont].respostes.length; i++) {
+                    $("#respuestas").append("<li id="+i+">" + test[cont].respostes[i] + "</li>");
+                }
+                $("#respostes").append("</ul>");
+                $("#respuestas").click(function() {
+                    $("#panel").hide(1500);
+                    var total = cont;
+                    if (event.target.id == test[cont-1].acert) {
+                        acerts++;
+                        $("#acerts").text(acerts);
+                        $("#total").text(total);
+                        
+                    } else {
+                        $("#total").text(total);
+                        
+                    }
+                    if (cont < 5) {
+                        $("#panel").show("slow", function() {
+                            carregarPreguntes();
+                        });
+                    } else {
+                        $("#panel").hide(1500);
+                        $("#resultat").show(1500);
+                        $("#resTotal").text("Has tret un " + (acerts/total)*10 + " sobre 10.")
+                    }
+                });
+                cont++;
+            }
+        }
+        </script>
+
+</head>
+<body>
+ 
+<div id="flip"><h1>Exàmen tipus test</h1><h3>Acerts: <span id="acerts">0</span> de <span id="total">0</span> </h3> </div>
+<div id="panel">
+
+    <h2 id="pregunta"></h2>
+    <div id="respostes">
+
+    </div>
+
+
+</div>
+
+<div id="resultat">
+    <h2>Resultat</h2>
+    <p id="resTotal"></p>
+</div>
+
+
+<div class="boto">
+    <input type="button" name="iniciar" id="iniciar" value="iniciar">
+</div>
+
+    
+</body>
+</html>

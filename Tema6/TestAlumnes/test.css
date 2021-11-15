@@ -5,6 +5,7 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .boto{
     text-align: center;
     padding: 5px;
+    
 }
 
 #panel, #flip, #resultat {
@@ -25,3 +26,14 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
   display: none;
 }
 
+li {
+  cursor: pointer;
+}
+
+li:hover {
+  background-color: darkgray;
+}
+
+#iniciar {
+  cursor: pointer;
+}

@@ -54,12 +54,10 @@
                         acerts++;
                         $("#acerts").text(acerts);
                         $("#total").text(total);
-                        
                     } else {
                         $("#total").text(total);
-                        
                     }
-                    if (cont < 5) {
+                    if (cont < test.length) {
                         $("#panel").show("slow", function() {
                             carregarPreguntes();
                         });

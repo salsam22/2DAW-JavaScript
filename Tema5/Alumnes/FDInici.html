@@ -12,10 +12,10 @@
     <div class="container-sm">
         <H1>Pedido de equipos ciclistas del club</H1>
 
-        <form > 
+        <form action="FDArticles.html"> 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre y Apellidos</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" pattern="^[A-Z a-z 1-9]{2,60}+$" required>
+                <input type="text" class="form-control" id="nombre" name="nombre" pattern="^[A-Z a-z 1-9]{2,60}$" required>
               </div>
             <div class="mb-3">
               <label for="emailº" class="form-label">Correo electónico</label>
@@ -23,7 +23,7 @@
             </div>
             <div class="mb-3">
               <label for="telefono" class="form-label">Teléfono</label>
-              <input type="text" class="form-control" name="telefono" id="telefono" placeholder="999 999 999" required>
+              <input type="text" class="form-control" name="telefono" id="telefono" placeholder="999 999 999" pattern="^\d{3}\s\d{3}\s\d{3}$$" required>
             </div>
             <div class="mb-3">
               <p id="mensajeError" class="text-danger"></p>

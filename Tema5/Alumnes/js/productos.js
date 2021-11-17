@@ -6,15 +6,20 @@ var precioF;
 var tallaF;
 
 function inicio() {
-    //obtenerPrecio();
-    obtenerNombre();
-    nombrePrenda();
-    precioPrenda();
-    tallasPrenda();
-    cambiarImagen();
-    establecerPrecio();
-    document.getElementById("talla").addEventListener("change", establecerPrecio, false);
-    document.getElementById("siguiente").addEventListener("click", validar)
+    if (JSON.parse(localStorage.getItem("contador")) != null) { 
+        cont = JSON.parse(localStorage.getItem("contador"));       
+    }
+    if (cont < 5) {
+        obtenerNombre();
+        prenda();
+        cambiarImagen();
+        establecerPrecio();
+        document.getElementById("talla").addEventListener("change", establecerPrecio, false);
+        document.getElementById("siguiente").addEventListener("click", validar)
+    } else {
+        location.href = "FDConfirmar.html";
+    }
+    
 }
 
 function obtenerNombre() {
@@ -24,19 +29,15 @@ function obtenerNombre() {
     h2.appendChild(txt);
 }
 
-function nombrePrenda() {
+function prenda() {
     var nombre = document.getElementById("nombreArticulo");
     nombre.setAttribute("value", pedido[cont].nombreArticulo);
     nombreF = pedido[cont].nombreArticulo;
-}
 
-function precioPrenda() {
     var precio = document.getElementById("precioArticulo");
     precio.setAttribute("value", pedido[cont].precioArticulo + " €");
     precioF = pedido[cont].precioArticulo;
-}
 
-function tallasPrenda() {
     var tallasP = document.getElementById("talla");
     for (let i = 0; i < 3; i++) {
         tallasP.lastElementChild.remove();
@@ -49,22 +50,6 @@ function tallasPrenda() {
     });
 }
 
-/*function obtenerTalla() {
-    document.getElementById("talla").addEventListener("click", function() {
-        var tallas = document.getElementById("talla");
-        var selectedOption = this.options[tallas.selectedIndex];
-        if (selectedOption.text == "Talla") {
-            return false;
-        }
-        
-        precioSumado();
-        tallaF = selectedOption.text;
-        return true;
-    });
-    
-}
-*/
-
 function establecerPrecio() {
     var total = document.getElementById("total");
     precio = 0;
@@ -74,37 +59,10 @@ function establecerPrecio() {
     if (document.getElementById("talla").value == "Talla") {
         total.innerHTML = precio + " €";
     } else {
+        tallaF = document.getElementById("talla").value;
         total.innerHTML = precio + parseInt(document.getElementById("precioArticulo").value) + " €";
     } 
 }
-
-
-/*function obtenerPrecio() {
-    var arrayProductos = new Array();
-
-    if (JSON.parse(localStorage.getItem("Productos")) != null) {
-        arrayProductos = JSON.parse(localStorage.getItem("Productos"));
-        for (let i = 0; i < arrayProductos.length; i++) {
-            suma = suma + arrayProductos.producto.precio;
-        }
-    } else {
-        suma = 0;
-    }
-
-    var total = document.getElementById("total");
-    var txt = document.createTextNode(suma + " €");
-    total.innerHTML = suma + " €";
-}
-
-function precioSumado() {
-    var total = document.getElementById("total");
-    total = total.outerText;
-    var totalSplit = total.split(" ");
-    var totalPrecio = parseInt(totalSplit[0]) + pedido[cont].precioArticulo;
-    var txt = document.createTextNode(totalPrecio + " €")
-    console.log(totalPrecio);
-    total.innerHTML = totalPrecio;
-}*/
 
 function cambiarImagen() {
     var img = document.getElementById("imagen");
@@ -124,14 +82,15 @@ function subirLocalStorage() {
     }
 
     arrayProductos.push(producto);
-    if (tallaF != "Talla") {
+    if (document.getElementById("talla").value != "Talla") {
         localStorage.setItem("Productos", JSON.stringify(arrayProductos));
-        localStorage.setItem('PrecioTotal', JSON.stringify(parseInt(document.getElementById("total").outerText.split(" ")[0])));
+        localStorage.setItem("PrecioTotal", JSON.stringify(parseInt(document.getElementById("total").outerText.split(" ")[0])));
     }
+
+    cont++;
+    localStorage.setItem("contador", JSON.stringify(cont));
 }
 
 function validar() {
-    if (obtenerTalla() && confirm("¿Seguro que quieres guardar este producto?")) {
-        subirLocalStorage();
-    }
+    subirLocalStorage();
 }

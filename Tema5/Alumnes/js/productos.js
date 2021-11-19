@@ -1,9 +1,6 @@
 window.onload = inicio;
 var cont = 0;
-var nombreF;
-var precioF;
 var tallaF;
-var foto;
 
 function inicio() {
     if (cont < 5) {
@@ -12,80 +9,91 @@ function inicio() {
         establecerPrecio();
         document.getElementById("talla").addEventListener("change", establecerPrecio, false);
         document.getElementById("siguiente").addEventListener("click", pujarLocalStorage);
-        cont++;
+        
     } else {
         location.href = "FDConfirmar.html";
     }
 }
 
 function obtenerNombre() {
-    var nombreTxt = JSON.parse(localStorage.getItem("Ticket"));
-    var h2 = document.getElementById("nombreApellidos");
-    var txt = document.createTextNode(nombreTxt[0].nom);
-    h2.appendChild(txt);
+    var ticket = new Array();
+    if (JSON.parse(localStorage.getItem("Ticket")) != null) {
+        var ticket = JSON.parse(localStorage.getItem("Ticket"));
+    }
+    var nombreAp = document.getElementById("nombreApellidos");
+    
+    nombreAp.innerText = ticket[0].nom;
 }
 
 function prenda() {
     var nombre = document.getElementById("nombreArticulo");
     nombre.setAttribute("value", pedido[cont].nombreArticulo);
-    nombreF = pedido[cont].nombreArticulo;
 
     var precio = document.getElementById("precioArticulo");
     precio.setAttribute("value", pedido[cont].precioArticulo + " €");
-    precioF = pedido[cont].precioArticulo;
 
-    var tallasP = document.getElementById("talla");
-    for (let i = 0; i < 3; i++) {
-        tallasP.lastElementChild.remove();
+    var talla = document.getElementById("talla");
+    var cantidad = talla.childElementCount-1;
+    for (let i = 0; i < cantidad; i++) {
+        talla.lastElementChild.remove();
     }
-    pedido[cont].tallas.forEach((element, index) => {
+    pedido[cont].tallas.forEach(element => {
         var option = document.createElement("option");
         var txt = document.createTextNode(element);
         option.appendChild(txt);
-        tallasP.appendChild(option);
+        talla.appendChild(option);
     });
     var img = document.getElementById("imagen");
     img.setAttribute("src", "img/" + pedido[cont].imagen)
-    foto = pedido[cont].imagen;
 }
 
 function establecerPrecio() {
     var total = document.getElementById("total");
-    precio = 0;
+    var talla = document.getElementById("talla");
+    var ticket = new Array();
+
     if (localStorage.getItem("Ticket") != null) {
-        var precio = JSON.parse(localStorage.getItem("Ticket"));
+        ticket = JSON.parse(localStorage.getItem("Ticket"));
     }
-    if (document.getElementById("talla").value == "Talla") {
-        total.innerHTML = precio[cont+1].precio + " €";
+
+    var totalTicket = ticket[0].precioTotal;
+    total.innerHTML = totalTicket + " €";
+    
+    if (talla.value != "Talla") {
+        var precioArt = pedido[cont].precioArticulo;
+        total.innerHTML = (totalTicket + precioArt) + " €";
     } else {
-        tallaF = document.getElementById("talla").value;
-        total.innerHTML = precio + parseInt(document.getElementById("precioArticulo").value) + " €";
-    } 
+        total.innerHTML = totalTicket + " €";
+    }
 }
 
 function subirLocalStorage() {
+    var talla = document.getElementById("talla");
     var ticket = new Array();
-    var producto = {
-        "nombre":nombreF,
-        "precio":precioF,
-        "talla":tallaF,
-        "foto":foto
-    }
-
-    console.log(producto);
-    
-
-    //var preuTotal = (parseInt(document.getElementById("total").outerText.split(" ")[0]));
 
     if (JSON.parse(localStorage.getItem("Ticket")) != null) {
         ticket = JSON.parse(localStorage.getItem("Ticket"));
     }
+    if (talla.value != "Talla") {
 
-    ticket.push(producto);
+        var producto = {
+            "nombre":pedido[cont].nombreArticulo,
+            "precio":pedido[cont].precioArticulo,
+            "talla":talla.value,
+            "foto":pedido[cont].imagen
+        }
+        ticket[0].productos.push(producto);
 
-    if (document.getElementById("talla").value != "Talla") {
+        var totalTicket = ticket[0].precioTotal;
+        var precioArt = pedido[cont].precioArticulo;
+        totalTicket = totalTicket + precioArt;
+        ticket[0].precioTotal = totalTicket;
+
         localStorage.setItem("Ticket", JSON.stringify(ticket));
     }
+
+    cont++;
+
     inicio();
 }
 

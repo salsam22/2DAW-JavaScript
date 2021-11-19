@@ -4,6 +4,7 @@ var correo;
 var telefono;
 
 function iniciar() {
+    localStorage.clear();
     document.getElementById("nombre").addEventListener("blur", validarNombre, false);
     document.getElementById("email").addEventListener("blur", validarEmail, false);
     document.getElementById("telefono").addEventListener("blur", validarTelefono, false);
@@ -12,12 +13,14 @@ function iniciar() {
 
 function subirLocalStorage() {
     var ticket = new Array();
-    var usuario = {
+    var general = {
         "nom": nombre,
         "correo": correo,
-        "telefono": telefono
+        "telefono": telefono,
+        "productos": [],
+        "precioTotal": 0
     }
-    ticket.push(usuario);
+    ticket.push(general);
     localStorage.setItem("Ticket", JSON.stringify(ticket));
 }
 
@@ -85,14 +88,14 @@ function validar(e) {
 
 function error2(element, missatge) {
     document.getElementById("mensajeError").innerHTML = missatge;
-    element.className = "text-danger";
+    element.className = "form-control border-danger";
     element.focus();
 }
 
 function esborrarError() {
     var formulari = document.forms[0];
-    for (let i = 0; i < formulari.elements.length; i++) {
-        formulari.elements[i].className = "";
+    for (var i = 0; i < formulari.elements.length - 1; i++) {
+        formulari.elements[i].className = "form-control";
     }
 }
 

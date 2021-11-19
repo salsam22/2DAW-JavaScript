@@ -1,19 +1,29 @@
 window.onload = inicio;
-var arrayProductos = new Array();
+var ticket = new Array();
+var total = 0;
+
+ticket = JSON.parse(localStorage.getItem("Ticket"));
 
 function inicio() {
-    if (JSON.parse(localStorage.getItem("Productos")) != null) {
-        arrayProductos = JSON.parse(localStorage.getItem("Productos"));
-    }
-    mostrar();
+    mostrarNombre();
+    mostrarArticulos();
+    eliminarProducto();
 }
 
-function mostrar() {
+function mostrarNombre() {
+    var nombre = document.getElementById("nombreApellidos");
+    nombre.innerText = ticket[0].nom;
+}
+
+function mostrarArticulos() {
     var pare = document.getElementById("articulos");
+    var arrayProductos = new Array();
+    arrayProductos = ticket[0].productos;
     arrayProductos.forEach((element,index) => {
         var primerDiv = document.createElement("div");
         primerDiv.setAttribute("class", "card mt-2");
         primerDiv.setAttribute("style", "width: 25rem;");
+        primerDiv.setAttribute("id", "primerDiv" + index);
         var h5 = document.createElement("h5");
         h5.setAttribute("class", "card-header");
         var nombreProducto = document.createTextNode(element.nombre);
@@ -35,6 +45,7 @@ function mostrar() {
         var a = document.createElement("a");
         a.setAttribute("href", "#");
         a.setAttribute("class", "btn btn-primary text-end");
+        a.setAttribute("id", index);
         var i = document.createElement("i");
         i.setAttribute("class", "fa fa-trash-o");
         i.setAttribute("aria-hidden", "true")
@@ -45,7 +56,7 @@ function mostrar() {
         var quintoDiv = document.createElement("div");
         quintoDiv.setAttribute("class", "col");
         var img = document.createElement("img");
-        img.setAttribute("src", "./img/" + element.imagen)
+        img.setAttribute("src", "./img/" + element.foto)
         img.setAttribute("class", "img-fluid img-thumbnail")
         quintoDiv.appendChild(img);
         tercerDiv.appendChild(quartoDiv);
@@ -54,6 +65,29 @@ function mostrar() {
         primerDiv.appendChild(h5);
         primerDiv.appendChild(segundoDiv);
         pare.appendChild(primerDiv);
-    
+        total += element.precio;
     });
+    var totalTexto = document.getElementById("total");
+    
+    totalTexto.innerText = total + " €";
+    
+    
+}
+
+function eliminarProducto() {
+    var botons = document.querySelectorAll(".btn.btn-primary.text-end");
+    
+    botons.forEach(element => {
+        element.addEventListener("click", clic);
+    });
+
+    function clic() {
+        var selected = document.getElementById("primerDiv" + this.id);
+        selected.remove();
+        ticket[0].productos.splice(this.id, 1);
+        ticket[0].precioTotal = total;
+        localStorage.setItem("Ticket", JSON.stringify(ticket));
+        location.reload();
+    }
+    
 }

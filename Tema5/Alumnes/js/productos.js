@@ -1,31 +1,27 @@
 window.onload = inicio;
 var cont = 0;
-var totalAbans = 0;
 var nombreF;
 var precioF;
 var tallaF;
+var foto;
 
 function inicio() {
-    if (JSON.parse(localStorage.getItem("contador")) != null) { 
-        cont = JSON.parse(localStorage.getItem("contador"));       
-    }
     if (cont < 5) {
         obtenerNombre();
         prenda();
-        cambiarImagen();
         establecerPrecio();
         document.getElementById("talla").addEventListener("change", establecerPrecio, false);
-        document.getElementById("siguiente").addEventListener("click", validar)
+        document.getElementById("siguiente").addEventListener("click", pujarLocalStorage);
+        cont++;
     } else {
         location.href = "FDConfirmar.html";
     }
-    
 }
 
 function obtenerNombre() {
-    var nombreTxt = JSON.parse(localStorage.getItem("Usuario"));
+    var nombreTxt = JSON.parse(localStorage.getItem("Ticket"));
     var h2 = document.getElementById("nombreApellidos");
-    var txt = document.createTextNode(nombreTxt.nom);
+    var txt = document.createTextNode(nombreTxt[0].nom);
     h2.appendChild(txt);
 }
 
@@ -48,49 +44,52 @@ function prenda() {
         option.appendChild(txt);
         tallasP.appendChild(option);
     });
+    var img = document.getElementById("imagen");
+    img.setAttribute("src", "img/" + pedido[cont].imagen)
+    foto = pedido[cont].imagen;
 }
 
 function establecerPrecio() {
     var total = document.getElementById("total");
     precio = 0;
-    if (localStorage.getItem("Productos") != null) {
-        var precio = JSON.parse(localStorage.getItem("PrecioTotal"));
+    if (localStorage.getItem("Ticket") != null) {
+        var precio = JSON.parse(localStorage.getItem("Ticket"));
     }
     if (document.getElementById("talla").value == "Talla") {
-        total.innerHTML = precio + " €";
+        total.innerHTML = precio[cont+1].precio + " €";
     } else {
         tallaF = document.getElementById("talla").value;
         total.innerHTML = precio + parseInt(document.getElementById("precioArticulo").value) + " €";
     } 
 }
 
-function cambiarImagen() {
-    var img = document.getElementById("imagen");
-    img.setAttribute("src", "img/" + pedido[cont].imagen)
-}
-
 function subirLocalStorage() {
-    var arrayProductos = new Array();
+    var ticket = new Array();
     var producto = {
         "nombre":nombreF,
         "precio":precioF,
-        "talla":tallaF
+        "talla":tallaF,
+        "foto":foto
     }
 
-    if (JSON.parse(localStorage.getItem("Productos")) != null) {
-        arrayProductos = JSON.parse(localStorage.getItem("Productos"));
+    console.log(producto);
+    
+
+    //var preuTotal = (parseInt(document.getElementById("total").outerText.split(" ")[0]));
+
+    if (JSON.parse(localStorage.getItem("Ticket")) != null) {
+        ticket = JSON.parse(localStorage.getItem("Ticket"));
     }
 
-    arrayProductos.push(producto);
+    ticket.push(producto);
+
     if (document.getElementById("talla").value != "Talla") {
-        localStorage.setItem("Productos", JSON.stringify(arrayProductos));
-        localStorage.setItem("PrecioTotal", JSON.stringify(parseInt(document.getElementById("total").outerText.split(" ")[0])));
+        localStorage.setItem("Ticket", JSON.stringify(ticket));
     }
-
-    cont++;
-    localStorage.setItem("contador", JSON.stringify(cont));
+    inicio();
 }
 
-function validar() {
+function pujarLocalStorage(e) {
+    e.preventDefault();
     subirLocalStorage();
 }

@@ -11,13 +11,14 @@ function iniciar() {
 }
 
 function subirLocalStorage() {
+    var ticket = new Array();
     var usuario = {
         "nom": nombre,
         "correo": correo,
         "telefono": telefono
     }
-
-    localStorage.setItem("Usuario", JSON.stringify(usuario));
+    ticket.push(usuario);
+    localStorage.setItem("Ticket", JSON.stringify(ticket));
 }
 
 function validarNombre() {

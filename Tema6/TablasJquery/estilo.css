@@ -1,0 +1,63 @@
+table,
+tr,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#titulo {
+    background-color: mediumslateblue;
+    font-weight: bold;
+    border: black 2px solid;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.impar {
+    background-color: rgba(0, 255, 136, 0.664);
+}
+
+tr {
+    background-color: rgba(255, 217, 0, 0.63);
+    border-right: black 2px solid;
+    border-left: black 2px solid;
+    text-align: center;
+}
+
+#fila10,
+#fila20,
+#fila30,
+#fila40,
+#fila50,
+#fila60,
+#fila70,
+#fila80,
+#fila90 {
+    border-bottom: black 2px solid;
+}
+
+#fila1 {
+    border-top: black solid 2px;
+}
+
+#impar {
+    border: black solid 1px;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0, 255, 136, 0.664);
+    display: inline-block;
+}
+
+#par {
+    border: black solid 1px;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 217, 0, 0.63);
+    display: inline-block;
+}
+
+span {
+    font-size: 15px;
+}

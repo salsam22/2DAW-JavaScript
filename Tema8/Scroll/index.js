@@ -21,10 +21,10 @@ var aux = 0;
 
 function cargarLista() {
   // recorrer Array
-  aux += 0;
   for (let i = 0; i < 10; i++) {
     cargarPagina(arrPoke[i + aux], i + aux);
   };
+  aux += 10;
 }
 
 const onScroll = () => {

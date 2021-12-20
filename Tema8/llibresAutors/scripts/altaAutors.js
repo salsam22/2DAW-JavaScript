@@ -1,8 +1,11 @@
 window.onload = inici;
 
-
 function inici() {
     document.getElementById("btnGravar").addEventListener("click", gravar, false);
+}
+
+function tornar() {
+    window.location = "llistatAutors.html";
 }
 
 function validarNom() {
@@ -44,6 +47,9 @@ function gravar(e) {
     e.preventDefault();
     if (validarNom() && validarAny() && confirm("¿Segur que vols crear a este autor?")) {
         gravarAPI();
+        setTimeout(function(){
+            tornar();
+        },50);
         return true;
     } else {
         console.log("no");
@@ -85,5 +91,5 @@ function gravarAPI() {
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error=>console.log(error));
-
+    
 }

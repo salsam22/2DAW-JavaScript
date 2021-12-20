@@ -10,7 +10,6 @@ function cargarAutores() {
         .then(response => response.json())
         .then(data =>
             carregarAutors(data));
-        //.catch(showError);
 }
 
 function nouAutor() {

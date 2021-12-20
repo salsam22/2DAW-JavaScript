@@ -2,8 +2,6 @@ window.onload = inici;
 
 
 function inici() {
-    document.getElementById("nom").addEventListener("blur", validarNom, false)
-    document.getElementById("anynaix").addEventListener("blur", validarAny, false)
     document.getElementById("btnGravar").addEventListener("click", gravar, false);
 }
 
@@ -19,7 +17,6 @@ function validarNom() {
         }
         return false;
     }
-
     borrarError();
     return true;
 }
@@ -31,27 +28,28 @@ function validarAny() {
         if (element.validity.valueMissing) {
             error2(element, "Error: El any es requerit.");
         }
-        if (element.validity.patternMismatch) {
-            error2(element, "Error: El any ha de tenir el seguent format: dd-mm-yyyy o dd/mm/yyyy.")
+        if (element.validity.rangeOverflow){
+            error2(element, "L'any no pot ser superior de 2000.");
         }
-        
+        if (element.validity.rangeUnderflow){
+            error2(element, "L'any no pot ser menor de 0.");
+        }
         return false;
     }
-
     borrarError();
     return true;
 }
 
 function gravar(e) {
+    e.preventDefault();
     if (validarNom() && validarAny() && confirm("¿Segur que vols crear a este autor?")) {
         gravarAPI();
         return true;
     } else {
         console.log("no");
-        e.preventDefault();
         return false;
     }
-}                                                           
+}
 
 function error2(element, missatge) {
     document.getElementById("missatgeError").innerHTML = missatge;
@@ -71,34 +69,21 @@ function borrarError() {
 }
 
 function gravarAPI() {
-    console.log("jpald");
-    autor = {
-
+    var autor = {
         nombre: document.getElementById("nom").value,
-        año_nacimiento: document.getElementById("any").value
+        año_nacimiento: document.getElementById("anynaix").value
     }
-
-    fetch('https://serverred.es/api/autores/', {
-
-
-        method: 'POST',
+    console.log(autor);
+    fetch("https://serverred.es/api/autores/", {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
+            // 'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: JSON.stringify(autor)
-
-
     })
-
-
-    .then(response => response.json())
-        .then(data => {
-
-
-
-        })
-        .catch((error) => {
-            location.href = "Error.html";
-        });
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error=>console.log(error));
 
 }

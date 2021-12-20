@@ -18,12 +18,12 @@ function nouAutor() {
 }
 
 function carregarAutors(data) {
-    data.resultado.forEach((element, index) => {
+    data.resultado.forEach(element => {
         var tr = document.createElement("tr");
         var td1 = document.createElement("td");
         var buttonEsborrar = document.createElement("button");
         buttonEsborrar.setAttribute("class", "btn btn-primary btn-lg my-3");
-        buttonEsborrar.setAttribute("id", "Esborrar");
+        buttonEsborrar.setAttribute("id", element._id);
         buttonEsborrar.setAttribute("onclick", "esborrarAutor(this)")
         var txt = document.createTextNode("Esborrar");
         buttonEsborrar.appendChild(txt);
@@ -31,7 +31,7 @@ function carregarAutors(data) {
         var td2 = document.createElement("td");
         var buttonModificar = document.createElement("button");
         buttonModificar.setAttribute("class", "btn btn-primary btn-lg my-3");
-        buttonModificar.setAttribute("id", "Modificar");
+        buttonModificar.setAttribute("id", element._id);
         buttonModificar.setAttribute("onclick", "modificarAutor(this)");
         var txt = document.createTextNode("Modificar");
         buttonModificar.appendChild(txt);

@@ -1,8 +1,38 @@
 window.onload = inici;
 
 function inici() {
-    agafarAutors();
+    obtenirDades();
     document.getElementById("btnGravar").addEventListener("click", gravar, false);
+}
+
+function obtenirDades() {
+    if (JSON.parse(localStorage.getItem("idLlibre")) != null) {
+        id = JSON.parse(localStorage.getItem("idLlibre"));
+    }
+    fetch("https://serverred.es/api/libros/" + id, {
+        method: "GET",
+    })
+        .then(response => response.json())
+        .then((data) => {
+            console.log(data);
+            var titol = document.getElementById("titol");
+            titol.setAttribute("value", data.resultado.titulo);
+            var editorial = document.getElementById("editorial");
+            editorial.setAttribute("value", data.resultado.editorial)
+            var preu = document.getElementById("preu");
+            preu.setAttribute("value", data.resultado.precio)
+            fetch("https://serverred.es/api/autores/"+data.resultado.autor, {
+                method: "GET",
+            })
+                .then(response => response.json())
+                .then((data) => {
+                    console.log(data);
+                    mostrarAutors(data);
+                })
+                .catch(error => console.log(error));
+
+        })
+        .catch(error => console.log(error));
 }
 
 function validarTitol() {
@@ -37,35 +67,21 @@ function validarPreu() {
     return true;
 }
 
-function agafarAutors() {
-    fetch("https://serverred.es/api/autores/", {
-        method: "GET",
-    })
-        .then(response => response.json())
-        .then((data) => {
-            console.log(data);
-            mostrarAutors(data);
-        })
-        .catch(error => console.log(error));
-}
-
-function mostrarAutors(data){
-    let autor = document.getElementById("autor");
-
-    data.resultado.forEach(element => {
-        let option = document.createElement("option");
-        let optionTxt = document.createTextNode(element.nombre);
-        option.setAttribute("value", element._id);
-        option.appendChild(optionTxt);
-        autor.appendChild(option);
-    });
+function mostrarAutors(data) {
+    console.log(data);
+    var autor = document.getElementById("autor");
+    var option = document.createElement("option");
+    var optionTxt = document.createTextNode(data.resultado.nombre);
+    option.setAttribute("value", data.resultado._id);
+    option.appendChild(optionTxt);
+    autor.appendChild(option);
 }
 
 function gravar(e) {
     esborrarError();
     e.preventDefault();
     if (validarTitol() && validarPreu() && confirm("¿Segur que vols crear a este llibre?")) {
-        gravarAPI();
+        editarLlibre();
         setTimeout(function () {
             tornar();
         }, 50);
@@ -96,20 +112,23 @@ function borrarError() {
     document.getElementById("missatgeError").innerHTML = "";
 }
 
-function gravarAPI() {
+function editarLlibre() {
+    if (JSON.parse(localStorage.getItem("idLlibre")) != null) {
+        id = JSON.parse(localStorage.getItem("idLlibre"));
+    }
     var libro = {
         titulo: document.getElementById("titol").value,
         editorial: document.getElementById("editorial").value,
         precio: document.getElementById("preu").value,
         autor: document.getElementById("autor").value
     }
-    fetch("https://serverred.es/api/libros/", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(libro)
-    })
+    fetch('https://serverred.es/api/libros/' + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(libro)
+        })
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.log(error));

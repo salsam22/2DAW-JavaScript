@@ -23,7 +23,7 @@ function carregarAutors(data) {
         var buttonEsborrar = document.createElement("button");
         buttonEsborrar.setAttribute("class", "btn btn-primary btn-lg my-3");
         buttonEsborrar.setAttribute("id", element._id);
-        buttonEsborrar.setAttribute("onclick", "esborrarAutor(this)")
+        buttonEsborrar.setAttribute("onclick", "comprovarEsborrar(this)")
         var txt = document.createTextNode("Esborrar");
         buttonEsborrar.appendChild(txt);
         td1.appendChild(buttonEsborrar);
@@ -31,7 +31,7 @@ function carregarAutors(data) {
         var buttonModificar = document.createElement("button");
         buttonModificar.setAttribute("class", "btn btn-primary btn-lg my-3");
         buttonModificar.setAttribute("id", element._id);
-        buttonModificar.setAttribute("onclick", "modificarAutor(this)");
+        buttonModificar.setAttribute("onclick", "paginaModificar(this)");
         var txt = document.createTextNode("Modificar");
         buttonModificar.appendChild(txt);
         td2.appendChild(buttonModificar);
@@ -48,4 +48,38 @@ function carregarAutors(data) {
         var content = document.getElementById("files");
         content.appendChild(tr);
     });
+}
+
+function esborrarAutor(id) {
+    fetch("https://serverred.es/api/autores/" + id, {
+        method: "DELETE"
+    })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.log(error));
+}
+
+function comprovarEsborrar(elem) {
+    fetch('https://serverred.es/api/libros/')
+        .then(response => response.json())
+        .then(data => {
+            var pot = true;
+            data.resultado.forEach(element => {
+                if (element.autor == elem.id) {
+                    pot = false;
+                }
+            })
+            if (pot == false) {
+                alert("No pots borrar un autor si te un libre creat, borra el llibre primer i despres torna a intentar-ho.");
+            } else {
+                esborrarAutor(elem.id);
+            }
+        })
+        .catch(error => console.log(error));
+}
+
+function paginaModificar(elem) {
+    localStorage.setItem("idAutor", JSON.stringify(elem.id));
+    window.location.href = "modificarAutors.html";
+    
 }

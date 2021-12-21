@@ -1,4 +1,5 @@
 window.onload = inici;
+var arrayAutors = new Array();
 
 function inici() {
     cargarAutores();
@@ -6,6 +7,15 @@ function inici() {
 }
 
 function cargarAutores() {
+    fetch("https://www.serverred.es/api/autores")
+        .then(response => response.json())
+        .then(data => {
+            arrayAutors=data.resultado;
+            cargarLlibros();
+        });
+}
+
+function cargarLlibros() {
     fetch("https://www.serverred.es/api/libros")
         .then(response => response.json())
         .then(data =>
@@ -26,7 +36,7 @@ function carregarAutors(data) {
         var buttonEsborrar = document.createElement("button");
         buttonEsborrar.setAttribute("class", "btn btn-primary btn-lg my-3");
         buttonEsborrar.setAttribute("id", element._id);
-        buttonEsborrar.setAttribute("onclick", "esborrarAutor(this)")
+        buttonEsborrar.setAttribute("onclick", "esborrarLlibre(this)")
         var txt = document.createTextNode("Esborrar");
         buttonEsborrar.appendChild(txt);
         td1.appendChild(buttonEsborrar);
@@ -34,7 +44,7 @@ function carregarAutors(data) {
         var buttonModificar = document.createElement("button");
         buttonModificar.setAttribute("class", "btn btn-primary btn-lg my-3");
         buttonModificar.setAttribute("id", element._id);
-        buttonModificar.setAttribute("onclick", "modificarAutor(this)");
+        buttonModificar.setAttribute("onclick", "modificarLlibre(this)");
         var txt = document.createTextNode("Modificar");
         buttonModificar.appendChild(txt);
         td2.appendChild(buttonModificar);
@@ -48,7 +58,7 @@ function carregarAutors(data) {
         var txt3 = document.createTextNode(element.precio)
         td5.appendChild(txt3);
         var td6 = document.createElement("td");
-        var txt4 = document.createTextNode(element.autor)
+        var txt4 = document.createTextNode(traureNom(element.autor));
         td6.appendChild(txt4);
         tr.appendChild(td1);
         tr.appendChild(td2);
@@ -59,4 +69,30 @@ function carregarAutors(data) {
         var content = document.getElementById("files");
         content.appendChild(tr);
     });
+}
+
+function esborrarLlibre(element) {
+    console.log(element);
+    fetch("https://serverred.es/api/libros/" + element.id, {
+        method: "DELETE"
+    })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error=>console.log(error));
+    
+}
+
+function modificarLlibre(elem) {
+    localStorage.setItem("idLlibre", JSON.stringify(elem.id));
+    window.location.href = "modificarLlibres.html";
+}
+
+function traureNom(id) {
+    var aux = "Autor no trobat";
+    arrayAutors.forEach(element => {
+        if (element._id == id) {
+            aux = element.nombre;
+        }
+    });
+    return aux;
 }

@@ -16,7 +16,7 @@ function validarNom() {
             error2(element, "Error: El nom es requerit.");
         }
         if (element.validity.patternMismatch) {
-            error2(element, "Error: El nom ha de tindre entre 2 y 60 caracters i no pot contindre caracters especials.")
+            error2(element, "Error: El titol ha de tindre mes de 3 caracters i no pot contenir caracters especials.")
         }
         return false;
     }
@@ -52,7 +52,6 @@ function gravar(e) {
         },50);
         return true;
     } else {
-        console.log("no");
         return false;
     }
 }
@@ -79,7 +78,6 @@ function gravarAPI() {
         nombre: document.getElementById("nom").value,
         año_nacimiento: document.getElementById("anynaix").value
     }
-    console.log(autor);
     fetch("https://serverred.es/api/autores/", {
         method: "POST",
         headers: {

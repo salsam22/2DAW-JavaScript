@@ -2,6 +2,7 @@ window.onload = inici;
 
 function inici() {
     cargarAutores();
+    document.getElementById("nouLlibre").addEventListener("click", nouLlibre);
 }
 
 function cargarAutores() {
@@ -12,21 +13,30 @@ function cargarAutores() {
         //.catch(showError);
 }
 
+function nouLlibre() {
+    window.location.href = "altaLlibres.html";
+}
+
 function carregarAutors(data) {
     
     console.log(data);
     data.resultado.forEach((element,index) => {
         var tr = document.createElement("tr");
         var td1 = document.createElement("td");
-        var button = document.createElement("button");
-        button.setAttribute("class", "btn btn-primary btn-lg my-3");
-        button.setAttribute("id", message);
-        button.setAttribute("onclick", "eliminarApi(this)");
-        var txt = document.createTextNode(message);
+        var buttonEsborrar = document.createElement("button");
+        buttonEsborrar.setAttribute("class", "btn btn-primary btn-lg my-3");
+        buttonEsborrar.setAttribute("id", element._id);
+        buttonEsborrar.setAttribute("onclick", "esborrarAutor(this)")
+        var txt = document.createTextNode("Esborrar");
         buttonEsborrar.appendChild(txt);
         td1.appendChild(buttonEsborrar);
         var td2 = document.createElement("td");
-        var buttonModificar = createButton("Modificar");
+        var buttonModificar = document.createElement("button");
+        buttonModificar.setAttribute("class", "btn btn-primary btn-lg my-3");
+        buttonModificar.setAttribute("id", element._id);
+        buttonModificar.setAttribute("onclick", "modificarAutor(this)");
+        var txt = document.createTextNode("Modificar");
+        buttonModificar.appendChild(txt);
         td2.appendChild(buttonModificar);
         var td3 = document.createElement("td");
         var txt1 = document.createTextNode(element.titulo)
@@ -49,24 +59,4 @@ function carregarAutors(data) {
         var content = document.getElementById("files");
         content.appendChild(tr);
     });
-}
-
-function createButtonEliminar(message) {
-    var button = document.createElement("button");
-    button.setAttribute("class", "btn btn-primary btn-lg my-3");
-    button.setAttribute("id", message);
-    button.setAttribute("onclick", "eliminarApi(this)");
-    var txt = document.createTextNode(message);
-    button.appendChild(txt);
-    return button;
-}
-
-function createButtonEditar() {
-    var button = document.createElement("button");
-    button.setAttribute("class", "btn btn-primary btn-lg my-3");
-    button.setAttribute("id", "Modificar");
-    button.setAttribute("onclick", "eliminarApi(this)");
-    var txt = document.createTextNode("Modificar");
-    button.appendChild(txt);
-    return button;
 }

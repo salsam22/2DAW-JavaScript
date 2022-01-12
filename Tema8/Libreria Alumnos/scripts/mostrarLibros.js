@@ -3,14 +3,26 @@ var arrayAutores = new Array();
 
 function inici() {
     cargarAutores();
+    document.getElementById("titol").addEventListener("keyup", carregarFiltre);
+}
+
+function carregarFiltre() {
+    var filtro = document.getElementById("titol").value;
+    if (filtro == "") {
+        cargarLlibros();
+    } else {
+        fetch("https://www.serverred.es/api/libros/titulo/" + filtro)
+            .then(response => response.json())
+            .then(data => mostrarLibros(data));
+    }
 }
 
 function cargarAutores() {
     fetch("https://www.serverred.es/api/autores")
         .then(response => response.json())
         .then(data => {
-            arrayAutores=data.resultado;
-            cargarLlibros();
+            arrayAutores = data.resultado;
+            carregarFiltre();
         });
 }
 
@@ -22,6 +34,15 @@ function cargarLlibros() {
 
 function mostrarLibros(data) {
     var usuario = "";
+
+    //document.getElementById("files").lastChild.parentNode.removeChild(document.getElementById("files").lastChild)
+
+    var files = document.getElementById("files");
+    var cantidad = files.childElementCount - 1;
+    do {
+        files.firstChild.remove();
+    } while (files.lastChild)
+
     if (JSON.parse(localStorage.getItem("Usuario")) != null) {
         usuario = JSON.parse(localStorage.getItem("Usuario"));
     }

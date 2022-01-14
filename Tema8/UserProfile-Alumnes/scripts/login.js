@@ -4,24 +4,6 @@ function inicio() {
     document.getElementById("enviar").addEventListener("click", validar, false);
 }
 
-var passwd = "";
-
-function validarNombre() {
-    esborrarError();
-    var element = document.getElementById("nom");
-    if (!element.checkValidity()) {
-        if(element.validity.valueMissing) {
-            error2(element, "Error: El nombre es requerido.");
-        }
-        if(element.validity.patternMismatch) {
-            error2(element, "Error: El nombre tiene que tener entre 6 y 255 caracteres i no puede contener caracteres especiales.");
-        }
-        return false;
-    }
-    borrarError();
-    return true;
-}
-
 function validarEmail() {
     esborrarError();
     var element = document.getElementById("email");
@@ -55,24 +37,10 @@ function validarPassword() {
     return true;
 }
 
-function validarPasswordc() {
-    esborrarError();
-    var element = document.getElementById("passwordc");
-    var passwd = document.getElementById("password")
-    console.log(passwd.value);
-    console.log(element.value);
-    if (element.value != passwd.value) {
-        error2(element, "Error: La repetición de la contraseña tiene que ser igual que la contraseña introducida anteriormente.")
-        return false;
-    }
-    borrarError();
-    return true;
-}
-
 function validar(e) {
     e.preventDefault();
-    if (validarNombre() && validarEmail() && validarPassword() && validarPasswordc() && confirm("¿Seguro que quieres registrarte?")) {
-        subirAPI();
+    if (validarEmail() && validarPassword() && confirm("¿Seguro que quieres registrarte?")) {
+        loginAPI();
         return true;
     } else {
         return false;
@@ -96,13 +64,12 @@ function borrarError() {
     document.getElementById("missatgeError").innerHTML = "";
 }
 
-function subirAPI() {
+function loginAPI() {
     var usuario = {
-        "name": document.getElementById("nom").value,
         "email": document.getElementById("email").value,
         "password": document.getElementById("password").value
     }
-    fetch(" https://userprofile.serverred.es/api/register", {
+    fetch("https://userprofile.serverred.es/api/login", {
         method:"POST",
         headers: {
             "Content-Type": "application/json"
@@ -111,10 +78,9 @@ function subirAPI() {
     })
         .then(response => response.json())
         .then(data =>{ 
-            console.log(data)
-            if(data.error==null){
-                alert("S'ha registrat l'usuari");
-            }
+            var token = data.data.token;
+            localStorage.setItem("TK", JSON.stringify(token));
+            window.location.href = "areaPersonal.html";
         })
         .catch(error=>console.log(error));
 }

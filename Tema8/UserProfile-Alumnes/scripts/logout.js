@@ -2,6 +2,7 @@ window.onload = inicio;
 
 function inicio() {
     mostrarUsuario();
+    mostrarImg();
     document.getElementById("enviar").addEventListener("click", logout);
 }
 
@@ -13,18 +14,6 @@ function logout() {
 function logged() {
     if (JSON.parse(localStorage.getItem("TK")) == null) {
         location.assign("login.html");
-    } else {
-        fetch("https://userprofile.serverred.es/api/areapersonal", {
-            method: "GET",
-            headers: {
-                'Accept': 'application/json',
-                "auth-token": JSON.parse(localStorage.getItem("TK"))
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            });
     }
 }
 
@@ -50,4 +39,24 @@ function mostrarUsuario() {
     .catch((error) => {
         console.error('Error:', error);
     })
+}
+
+function mostrarImg() {
+    fetch("https://userprofile.serverred.es/api/areaPersonal", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token" : JSON.parse(localStorage.getItem("TK"))
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            let avatar = document.getElementById("avatar");
+
+            avatar.setAttribute("src", "https://userprofile.serverred.es/public/img/"+ data.data.user.avatar);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 }

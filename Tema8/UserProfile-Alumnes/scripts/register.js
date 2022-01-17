@@ -2,6 +2,7 @@ window.onload = inicio;
 
 function inicio() {
     document.getElementById("enviar").addEventListener("click", validar, false);
+    mostrarImg();
 }
 
 var passwd = "";
@@ -117,4 +118,24 @@ function subirAPI() {
             }
         })
         .catch(error=>console.log(error));
+}
+
+function mostrarImg() {
+    fetch("https://userprofile.serverred.es/api/areaPersonal", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token" : JSON.parse(localStorage.getItem("TK"))
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            let avatar = document.getElementById("avatar");
+
+            avatar.setAttribute("src", "https://userprofile.serverred.es/public/img/"+ data.data.user.avatar);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 }

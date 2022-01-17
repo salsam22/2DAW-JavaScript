@@ -3,6 +3,8 @@ window.onload = inicio;
 function inicio() {
     mostrarNombre();
     mostrarUsuario();
+    mostrarImg();
+    document.getElementById("enviarAvatar").addEventListener("click", cambiarAvatar, false);
     document.getElementById("enviar").addEventListener("click", validar, false);
 }
 
@@ -55,6 +57,22 @@ function mostrarUsuario() {
     });
 }
 
+function validarNombre() {
+    esborrarError();
+    var element = document.getElementById("nom");
+    if (!element.checkValidity()) {
+        if(element.validity.valueMissing) {
+            error2(element, "Error: El nombre es requerido.");
+        }
+        if(element.validity.patternMismatch) {
+            error2(element, "Error: El nombre tiene que tener entre 6 y 255 caracteres i no puede contener caracteres especiales.");
+        }
+        return false;
+    }
+    borrarError();
+    return true;
+}
+
 function validarPassword() {
     esborrarError();
     var element = document.getElementById("passworda");
@@ -67,7 +85,6 @@ function validarPassword() {
         }
         return false;
     }
-    passwd = element.value;
     borrarError();
     return true;
 }
@@ -84,7 +101,6 @@ function validarPasswordNova() {
         }
         return false;
     }
-    passwd = element.value;
     borrarError();
     return true;
 }
@@ -105,7 +121,7 @@ function validarPasswordc() {
 
 function validar(e) {
     e.preventDefault();
-    if (validarPassword() && validarPasswordNova() && validarPasswordc() && confirm("¿Seguro que quieres registrarte?")) {
+    if (validarNombre() && validarPassword() && validarPasswordNova() && validarPasswordc() && confirm("¿Seguro que quieres actualizar?")) {
         actualizarAPI();
         return true;
     } else {
@@ -154,4 +170,55 @@ function actualizarAPI() {
             }
         })
         .catch(error=>console.log(error));
+        setTimeout(() => {
+            window.location.reload();
+        }, 150);
+}
+
+function cambiarAvatar(e) {
+    e.preventDefault();
+    const formData = new FormData();
+    const file = document.querySelector('input[type="file"]');
+
+    formData.append("avatar", file.files[0]);
+    var token = localStorage.getItem("TK");
+    fetch(" https://userprofile.serverred.es/api/areapersonal/avatar",{
+        method: "PUT",
+        headers : {
+            "auth-token": JSON.parse(localStorage.getItem("TK"))
+        },
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data =>{
+        console.log(data);
+    })
+    .catch(error=>{
+        console.log(error);
+    })
+    setTimeout(() => {
+        window.location.reload();
+    }, 150);
+}
+
+function mostrarImg() {
+    fetch("https://userprofile.serverred.es/api/areaPersonal", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token" : JSON.parse(localStorage.getItem("TK"))
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            let avatarAP = document.getElementById("avatarAP");
+            let avatar = document.getElementById("avatar");
+
+            avatarAP.setAttribute("src", "https://userprofile.serverred.es/public/img/"+ data.data.user.avatar);
+            avatar.setAttribute("src", "https://userprofile.serverred.es/public/img/"+ data.data.user.avatar);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 }

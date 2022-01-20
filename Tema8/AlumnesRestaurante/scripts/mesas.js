@@ -7,6 +7,7 @@ function inicio() {
     cargarMesas();
     document.getElementById("newMesa").addEventListener("click", new_mod, false);
     document.getElementById("confirmar").addEventListener("click", validar, false);
+    document.getElementById("cancelar").addEventListener("click", cancelar, false);
 }
 
 function mostrarUsuario() {
@@ -103,12 +104,16 @@ function cargarMesas() {
     )
 }
 
+function cancelar() {
+    document.getElementById("formulario").setAttribute("class", "visually-hidden");
+}
+
 function new_mod(elem) {
     document.getElementById("_id").setAttribute("value", elem.id);
     if (elem.id != undefined) {
         muestraEdit(elem.id);
     }
-    document.getElementById("formulario").setAttribute("class", "");
+    document.getElementById("formulario").setAttribute("class", "visually-visible");
 }
 
 function validarNumeroMesa() {
@@ -168,7 +173,7 @@ function borrarError() {
 
 function validar(e) {
     e.preventDefault();
-    if (validarNumeroMesa() && validarComensales() && confirm("¿Seguro que quieres registrarte?")) {
+    if (validarNumeroMesa() && validarComensales() && confirm("¿Seguro?")) {
         new_mod_mesa();
         return true;
     } else {
@@ -178,7 +183,7 @@ function validar(e) {
 
 function new_mod_mesa() {
     var id = document.getElementById("_id").value;
-    if (id == undefined) {
+    if (id == "undefined") {
         var mesa = {
             numero: document.getElementById("numero").value,
             comensales: document.getElementById("comensales").value,
@@ -197,7 +202,6 @@ function new_mod_mesa() {
             .catch(error=>console.log(error));
         inicio();
     } else {
-        
         var mesa = {
             numero: document.getElementById("numero").value,
             comensales: document.getElementById("comensales").value,
@@ -252,6 +256,7 @@ function borrarMesa(elem) {
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.log(error));
+    inicio();
 }
 
 function borrarTodo() {

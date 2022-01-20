@@ -94,17 +94,17 @@
             <div class="row">
                 <div class="col">
                     <label for="numero">Número</label>
-                    <input type="number" class="form-control" id="numero" name="numero">
+                    <input type="number" class="form-control" id="numero" name="numero" min="1" max="100" required>
                     <input type="hidden" id="_id">
                 </div>
                 <div class="col">
                     <label for="comensales">Comensales</label>
-                    <input type="number" class="form-control" id="comensales"" name=" comensales">
+                    <input type="number" class="form-control" id="comensales"" name=" comensales" min="1" max="100" required>
                 </div>
                 <div class="col">
                     <label for="comensales">Descripción</label>
                     <input type="text" class="form-control" id="descripcion"" name=" descripcion">
-                    <button type="submit" id="cancelar" class="mt-2 btn btn-primary">Cancelar</button>
+                    <button type="reset" id="cancelar" class="mt-2 btn btn-primary">Cancelar</button>
                     <button type="submit" id="confirmar" class="mt-2 btn btn-primary">Confirmar</button>
                 </div>
 

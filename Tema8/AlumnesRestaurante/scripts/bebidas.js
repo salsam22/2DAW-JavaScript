@@ -4,8 +4,8 @@ function inicio() {
     mostrarUsuario();
     mostrarImg();
     borrarTodo();
-    cargarMesas();
-    document.getElementById("newMesa").addEventListener("click", new_mod, false);
+    cargarBebidas();
+    document.getElementById("newBebida").addEventListener("click", new_mod, false);
     document.getElementById("confirmar").addEventListener("click", validar, false);
     document.getElementById("cancelar").addEventListener("click", cancelar, false);
 }
@@ -21,14 +21,16 @@ function mostrarUsuario() {
         .then(response => response.json())
         .then(data => {
             if (data.error == null) {
+                console.log("FUNCIONA");
                 let nom = document.getElementById("user");
                 nom.innerHTML = data.data.user.name;
             } else {
+                console.log("ERROR");
                 console.log(data.error);
             }
         })
         .catch((error) => {
-            console.log(error);
+            console.error('Error:', error);
         })
 }
 
@@ -42,7 +44,9 @@ function mostrarImg() {
     })
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             let avatar = document.getElementById("avatar");
+
             avatar.setAttribute("src", "https://userprofile.serverred.es/public/img/" + data.data.user.avatar);
         })
         .catch((error) => {
@@ -50,8 +54,8 @@ function mostrarImg() {
         })
 }
 
-function cargarMesas() {
-    fetch("https://restaurante.serverred.es/api/mesas", {
+function cargarBebidas() {
+    fetch("https://restaurante.serverred.es/api/bebidas", {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
@@ -60,14 +64,13 @@ function cargarMesas() {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            data.data.data.forEach((element, index) => {
+            data.data.data.forEach(element => {
                 var tr = document.createElement("tr");
                 var td1 = document.createElement("td");
                 var btnBorrar = document.createElement("button");
                 btnBorrar.setAttribute("class", "btn btn-primary btn-lg my-3");
                 btnBorrar.setAttribute("id", element._id);
-                btnBorrar.setAttribute("onclick", "borrarMesa(this)")
+                btnBorrar.setAttribute("onclick", "borrarBebida(this)")
                 var txt = document.createTextNode("Borrar");
                 btnBorrar.appendChild(txt);
                 td1.appendChild(btnBorrar);
@@ -80,19 +83,15 @@ function cargarMesas() {
                 btnModificar.appendChild(txt);
                 td2.appendChild(btnModificar);
                 var td3 = document.createElement("td");
-                var txt1 = document.createTextNode(element.numero)
+                var txt1 = document.createTextNode(element.nombre)
                 td3.appendChild(txt1);
                 var td4 = document.createElement("td");
-                var txt2 = document.createTextNode(element.comensales)
+                var txt2 = document.createTextNode(element.precio)
                 td4.appendChild(txt2);
-                var td5 = document.createElement("td");
-                var txt3 = document.createTextNode(element.descripcion)
-                td5.appendChild(txt3);
                 tr.appendChild(td1);
                 tr.appendChild(td2);
                 tr.appendChild(td3);
                 tr.appendChild(td4);
-                tr.appendChild(td5);
                 var content = document.getElementById("files");
                 content.appendChild(tr);
             })
@@ -101,7 +100,7 @@ function cargarMesas() {
 }
 
 function muestraEdit(id) {
-    fetch("https://restaurante.serverred.es/api/mesas/", {
+    fetch("https://restaurante.serverred.es/api/bebidas", {
         method: "GET",
         headers: {
             "Accept": "application/json",
@@ -110,62 +109,59 @@ function muestraEdit(id) {
     })
         .then(response => response.json())
         .then(data => {
+            console.log(id);
             data.data.data.forEach(element => {
                 if (element._id == id) {
                     console.log(element);
-                    document.getElementById("numero").value = element.numero;
-                    document.getElementById("comensales").value = element.comensales;
-                    document.getElementById("descripcion").value = element.descripcion;
+                    document.getElementById("nombre").value = element.nombre;
+                    document.getElementById("precio").value = element.precio;
                 }
             });
         })
-        .catch(error => error2(error, "Error al mostrar la mesa para editarla."));
+        .catch(error => error2(error, "Error al mostrar la bebida para editarla."));
 }
 
-function new_mod_mesa() {
+function new_mod_bebida() {
     var id = document.getElementById("_id").value;
     if (id == "undefined") {
-        var mesa = {
-            numero: document.getElementById("numero").value,
-            comensales: document.getElementById("comensales").value,
-            descripcion: document.getElementById("descripcion").value
+        var bebida = {
+            nombre: document.getElementById("nombre").value,
+            precio: document.getElementById("precio").value
         }
-        fetch("https://restaurante.serverred.es/api/mesas", {
+        fetch("https://restaurante.serverred.es/api/bebidas", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "auth-token": JSON.parse(localStorage.getItem("TK"))
             },
-            body: JSON.stringify(mesa)
+            body: JSON.stringify(bebida)
         })
             .then(response => response.json())
             .then(data => console.log(data))
-            .catch(error => error2(error, "Error al crear la mesa"));
+            .catch(error => error2(error, "Error al crear la bebida"));
     } else {
-        var mesa = {
-            numero: document.getElementById("numero").value,
-            comensales: document.getElementById("comensales").value,
-            descripcion: document.getElementById("descripcion").value
+        var bebida = {
+            nombre: document.getElementById("nombre").value,
+            precio: document.getElementById("precio").value
         }
-        fetch("https://restaurante.serverred.es/api/mesas/" + id, {
+        fetch("https://restaurante.serverred.es/api/bebidas/" + id, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "auth-token": JSON.parse(localStorage.getItem("TK"))
             },
-            body: JSON.stringify(mesa)
+            body: JSON.stringify(bebida)
         })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => error2(error, "Error al editar la mesa."));
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => error2(error, "Error al editar la bebida."));
     }
     inicio();
     cancelar();
 }
 
-
-function borrarMesa(elem) {
-    fetch("https://restaurante.serverred.es/api/mesas/" + elem.id, {
+function borrarBebida(elem) {
+    fetch("https://restaurante.serverred.es/api/bebidas/" + elem.id, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -174,23 +170,20 @@ function borrarMesa(elem) {
     })
         .then(response => response.json())
         .then(data => console.log(data))
-        .catch(error => error2(error, "Error el eliminar la mesa."));
+        .catch(error => error2(error, "Error el eliminar la bebida."));
     inicio();
 
 }
 
-function validarNumeroMesa() {
+function validarNombreBebida() {
     esborrarError();
-    var element = document.getElementById("numero");
+    var element = document.getElementById("nombre");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
-            error2(element, "Error: El numero de mesa es requerido.");
+            error2(element, "Error: El nombre de la bebida es requerido.");
         }
-        if (element.validity.rangeOverflow) {
-            error2(element, "Error: El numero de mesa tiene que ser inferior a 100.");
-        }
-        if (element.validity.rangeUnderflow) {
-            error2(element, "Error: El numero de mesa tiene que ser superior a 1.");
+        if (element.validity.patternMismatch) {
+            error2(element, "Error: El nombre de la bebida tiene que tener entre 4 y 60 caracteres.");
         }
         return false;
     }
@@ -198,18 +191,15 @@ function validarNumeroMesa() {
     return true;
 }
 
-function validarComensales() {
+function validarPrecio() {
     esborrarError();
-    var element = document.getElementById("comensales");
+    var element = document.getElementById("precio");
     if (!element.checkValidity()) {
         if (element.validity.valueMissing) {
-            error2(element, "Error: El numero de comensales es requerido.");
-        }
-        if (element.validity.rangeOverflow) {
-            error2(element, "Error: El numero de comensales tiene que ser inferior a 50.");
+            error2(element, "Error: El precio de la bebida es requerido.");
         }
         if (element.validity.rangeUnderflow) {
-            error2(element, "Error: El numero de comensales tiene que ser superior a 1.");
+            error2(element, "Error: El precio de la bebida tiene que ser superior a 0.");
         }
         return false;
     }
@@ -236,8 +226,8 @@ function borrarError() {
 
 function validar(e) {
     e.preventDefault();
-    if (validarNumeroMesa() && validarComensales() && confirm("¿Seguro?")) {
-        new_mod_mesa();
+    if (validarNombreBebida() && validarPrecio() && confirm("¿Seguro?")) {
+        new_mod_bebida();
         vaciarForm();
         return true;
     } else {
@@ -258,9 +248,8 @@ function new_mod(elem) {
 }
 
 function vaciarForm() {
-    document.getElementById("numero").value = "";
-    document.getElementById("comensales").value = "";
-    document.getElementById("descripcion").value = "";
+    document.getElementById("nombre").value = "";
+    document.getElementById("precio").value = "";
 }
 
 function borrarTodo() {

@@ -8,8 +8,8 @@ function inicio() {
     mostrarDatosComanda();
     borrarTodoBebidas();
     borrarTodoBotones();
-    mostrarBebidasBotones();
     mostrarBebidas();
+    mostrarBebidasBotones();
     document.getElementById("confirmar").addEventListener("click", subirAPI, false)
 }
 

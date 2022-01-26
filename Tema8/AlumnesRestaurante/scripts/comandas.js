@@ -104,6 +104,8 @@ function cargarComandas() {
                 td1.appendChild(txtSpace)
                 var btnPlatos = document.createElement("button");
                 btnPlatos.setAttribute("class", "btn btn-warning btn-lg p-2");
+                btnPlatos.setAttribute("id", element._id);
+                btnPlatos.setAttribute("onclick", "crearPlatos(this)")
                 var iPlatos = document.createElement("i");
                 iPlatos.setAttribute("class", "fas fa-plus");
                 btnPlatos.appendChild(iPlatos);
@@ -191,6 +193,26 @@ function crearBebidas(button) {
             });
             localStorage.setItem("Comanda Seleccionada", JSON.stringify(comandaSeleccionada));
             window.location.assign("comandasAddBebidas.html");
+        }
+    }
+}
+
+function crearPlatos(button) {
+    for (let i = 0; i < comandasActivas.length; i++) {
+        if (button.id == comandasActivas[i]._id) {
+            var comandaSeleccionada = comandasActivas[i];
+            camarerosComplete.forEach(element => {
+                if (element._id == comandaSeleccionada.user) {
+                    comandaSeleccionada.user = element.name;
+                }
+            });
+            mesasComplete.forEach(element => {
+                if (element._id == comandaSeleccionada.mesa) {
+                    comandaSeleccionada.mesa = element.numero;
+                }
+            });
+            localStorage.setItem("Comanda Seleccionada", JSON.stringify(comandaSeleccionada));
+            window.location.assign("comandasAddPlatos.html");
         }
     }
 }

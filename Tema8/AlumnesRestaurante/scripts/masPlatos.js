@@ -3,11 +3,18 @@ window.onload = inicio;
 var arrayPlatos = new Array();
 var arrayComanda = JSON.parse(localStorage.getItem("Comanda Seleccionada"));
 
-function inicio() {
+async function inicio() {
+    await cargarArrayPlatos();
     mostrarUsuario();
     mostrarDatosComanda();
     borrarTodoPlatos();
-    mostrarPlatosBotones();
+    mostrarBotonesPlatos();
+    mostrarPlatos();
+    document.getElementById("confirmar").addEventListener("click", subirAPI, false)
+}
+
+function reiniciarTable() {
+    borrarTodoPlatos();
     mostrarPlatos();
 }
 
@@ -54,8 +61,8 @@ function mostrarDatosComanda() {
     document.getElementById("fechaEntrada").appendChild(hora);
 }
 
-function mostrarPlatosBotones() {
-    fetch("https://restaurante.serverred.es/api/platos", {
+async function cargarArrayPlatos() {
+    await fetch("https://restaurante.serverred.es/api/platos", {
         method: "GET",
         headers: {
             "Accept": "application/json",
@@ -64,16 +71,13 @@ function mostrarPlatosBotones() {
     })
         .then(response => response.json())
         .then(data => {
-            data.data.data.forEach(element => {
-                arrayPlatos.push(element);
-                console.log(arrayPlatos);
-            });
+            arrayPlatos = data.data.data;
         })
         .catch(error => error2(error, "Error al mostrar las bebida para añadirlas."));
 }
 
 function mostrarPlatos() {
-    
+
     arrayComanda.platos.forEach(element => {
         var tr = document.createElement("tr");
 
@@ -81,7 +85,7 @@ function mostrarPlatos() {
         var btnBorrar = document.createElement("button");
         btnBorrar.setAttribute("class", "btn btn-primary btn-lg my-3");
         btnBorrar.setAttribute("id", element._id)
-        btnBorrar.setAttribute("onclick", "borrarBebida(this)")
+        btnBorrar.setAttribute("onclick", "borrarPlato(this)")
         btnBorrar.setAttribute("type", "button");
         var txt = document.createTextNode("Borrar");
         btnBorrar.appendChild(txt);
@@ -92,7 +96,7 @@ function mostrarPlatos() {
         td2.appendChild(txt1);
 
         var td3 = document.createElement("td");
-        
+
         var orden = obtenerOrden(element._id);
         var txt2 = document.createTextNode(orden);
         td3.appendChild(txt2);
@@ -112,11 +116,112 @@ function mostrarPlatos() {
 }
 
 function obtenerOrden(id) {
-    console.log("fga");
-    console.log(arrayPlatos);
+    const platoSelec = arrayPlatos.find(element => element._id == id);
+    if (platoSelec != undefined) {
+        return platoSelec.orden;
+    } else {
+        return "plato no existe";
+    }
+}
+
+function mostrarBotonesPlatos() {
+
     arrayPlatos.forEach(element => {
-        console.log(element);
-    });
+
+        if (element.orden == "Primero") {   
+            var platos = document.getElementById("platosPrimero");
+            
+            var div = document.createElement("div");
+            div.setAttribute("class", "col");
+            
+            var input = document.createElement("input");
+            input.setAttribute("type", "button");
+            input.setAttribute("id", element._id);
+            input.setAttribute("class", "mt-2 btn btn-warning p-3");
+            input.setAttribute("value", element.nombre);
+            input.setAttribute("onclick", "elegirPlato(this)");
+            
+            div.appendChild(input)
+            
+            platos.appendChild(div)
+        } else if (element.orden == "Segundo") {
+            var platos = document.getElementById("platosSegundo");
+            
+            var div = document.createElement("div");
+            div.setAttribute("class", "col");
+            
+            var input = document.createElement("input");
+            input.setAttribute("type", "button");
+            input.setAttribute("id", element._id);
+            input.setAttribute("class", "mt-2 btn btn-warning p-3");
+            input.setAttribute("value", element.nombre);
+            input.setAttribute("onclick", "elegirPlato(this)");
+            
+            div.appendChild(input)
+            
+            platos.appendChild(div)
+        } else if (element.orden == "Postre") {
+            var platos = document.getElementById("platosPostre");
+            
+            var div = document.createElement("div");
+            div.setAttribute("class", "col");
+            
+            var input = document.createElement("input");
+            input.setAttribute("type", "button");
+            input.setAttribute("id", element._id);
+            input.setAttribute("class", "mt-2 btn btn-warning p-3");
+            input.setAttribute("value", element.nombre);
+            input.setAttribute("onclick", "elegirPlato(this)");
+            
+            div.appendChild(input)
+            
+            platos.appendChild(div)
+        }
+    })
+}
+
+function borrarPlato(elem) {
+    arrayComanda.platos.forEach((element, index) => {
+        if (elem.id == element._id) {
+            if (element.estado == "Pendiente") {
+                arrayComanda.platos.splice(index, 1);
+                reiniciarTable();
+            } else if (element.estado == "Servido") {
+                alert("No se puede eliminar porque ya esta servido")
+            } 
+        }
+    })
+}
+
+function elegirPlato(elem) {
+    var validar = false;
+    
+
+    arrayComanda.platos.forEach(element => {
+        if (elem.id == element._id) {
+            element.cantidad = element.cantidad+1;
+            validar = true;
+            reiniciarTable();
+        } 
+    })
+
+    if (validar == false) {
+        arrayPlatos.forEach(element => {
+            if (elem.id == element._id) {
+                var plato = {
+                    "_id": element._id,
+                    "cantidad": 1,
+                    "estado": "Pendiente",
+                    "orden": element.orden,
+                    "nombre": element.nombre,
+                    "precio": element.precio
+                }
+                arrayComanda.platos.push(plato);
+                reiniciarTable();
+            }
+        })
+    }
+    console.log(arrayComanda);
 }
 
 function obtenerHora(fecha) {
@@ -143,4 +248,29 @@ function borrarTodoPlatos() {
 function error2(element, missatge) {
     document.getElementById("missatgeError").innerHTML = missatge;
     element.className = "form-control border-danger";
+}
+
+function subirAPI(e) {
+    e.preventDefault();
+    var notas = document.getElementById("notas").value;
+
+    var platos = {
+        "platos" : arrayComanda.platos,
+        "notas" : notas
+    }
+
+    fetch("https://restaurante.serverred.es/api/comandas/platos/" + arrayComanda._id, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "auth-token": JSON.parse(localStorage.getItem("TK"))
+            },
+            body: JSON.stringify(platos)
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.log(error));
+    /*setTimeout(function () {
+        window.location.href = "comandas.html";
+    }, 500);*/
 }

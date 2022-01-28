@@ -212,7 +212,6 @@ function elegirPlato(elem) {
                     "_id": element._id,
                     "cantidad": 1,
                     "estado": "Pendiente",
-                    "orden": element.orden,
                     "nombre": element.nombre,
                     "precio": element.precio
                 }
@@ -259,6 +258,8 @@ function subirAPI(e) {
         "notas" : notas
     }
 
+    console.log(platos);
+
     fetch("https://restaurante.serverred.es/api/comandas/platos/" + arrayComanda._id, {
             method: "PUT",
             headers: {
@@ -270,7 +271,7 @@ function subirAPI(e) {
             .then(response => response.json())
             .then(data => console.log(data))
             .catch(error => console.log(error));
-    /*setTimeout(function () {
+    setTimeout(function () {
         window.location.href = "comandas.html";
-    }, 500);*/
+    }, 500);
 }

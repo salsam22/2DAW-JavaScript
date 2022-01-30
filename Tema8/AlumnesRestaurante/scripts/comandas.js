@@ -8,6 +8,7 @@ function inicio() {
     mostrarUsuario();
     borrarTodo();
     mesa();
+    document.getElementById("newComanda").addEventListener("click", añadirNuevaComanda, false);
 }
 
 function mostrarUsuario() {
@@ -222,4 +223,8 @@ function borrarTodo() {
     do {
         files.firstChild.remove();
     } while (files.lastChild)
+}
+
+function añadirNuevaComanda() {
+    window.location.assign("altaComandas.html");
 }

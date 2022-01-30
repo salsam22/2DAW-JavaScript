@@ -8,13 +8,9 @@ var arrayNuevaComanda = {
     "nombre": "",
     "comensales": "",
     "estado": "Pendiente",
-    "fechaEntrada": new Date(),
-    "fechaSalida": "",
     "mesa": "",
-    "user": "",
     "bebidas": [],
-    "platos": [],
-    "notas": ""
+    "platos": []
 };
 
 function iniciar() {
@@ -54,7 +50,7 @@ function mostrarUsuario() {
             }
             let avatar = document.getElementById("avatar");
             avatar.setAttribute("src", "https://userprofile.serverred.es/public/img/" + data.data.user.avatar);
-            arrayNuevaComanda.user = data.data.user.name;
+            //arrayNuevaComanda.user = data.data.user.name;
             //"61e8359f26d20e038319f759"
         })
         .catch((error) => {
@@ -490,9 +486,9 @@ function subirAPI() {
     console.log(arrayBebidasFinal);
     arrayNuevaComanda.bebidas = arrayBebidasFinal;
     arrayNuevaComanda.platos = arrayPlatosFinal;
-    arrayNuevaComanda.fechaSalida = new Date();
-    var nota = document.getElementById("notas").value;
-    arrayNuevaComanda.notas = nota;
+    //arrayNuevaComanda.fechaSalida = new Date();
+    //var nota = document.getElementById("notas").value;
+    //arrayNuevaComanda.notas = nota;
     console.log(arrayNuevaComanda);
 
     setTimeout(function () {

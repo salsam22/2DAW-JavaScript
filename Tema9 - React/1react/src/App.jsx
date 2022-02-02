@@ -1,25 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+let technologyData = ['React', 'Vue', 'Angular'];
+<App title="My title " version={1} tech={technologyData} />
+
+class App extends React.Component {
+  render() {
+    let h1class = {
+      textAlign : "center",
+      color : "red",
+      fontWeight: "bold"
+    }
+    let h2Class = {
+      color : "darkred"
+    }
+    return (
+      <div class='mt-5 ms-5'>
+        <h1 style={h1class}> Styled component</h1>
+        <h2 style={h2Class}> Other style</h2>
+      </div>
+    );
+  }
 }
 
 export default App;

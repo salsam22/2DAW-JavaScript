@@ -1,27 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-
-let technologyData = ['React', 'Vue', 'Angular'];
-<App title="My title " version={1} tech={technologyData} />
+import PropTypes from 'prop-types';
 
 class App extends React.Component {
-  render() {
-    let h1class = {
-      textAlign : "center",
-      color : "red",
-      fontWeight: "bold"
+  static defaultProps = {
+    title: "Default title",
+      version: 0,
     }
-    let h2Class = {
-      color : "darkred"
-    }
-    return (
-      <div class='mt-5 ms-5'>
-        <h1 style={h1class}> Styled component</h1>
-        <h2 style={h2Class}> Other style</h2>
+    
+    render() {
+      const title = this.props.title;
+      const tech = this.props.tech;
+      const version = this.props.version;
+      
+      return (
+        <div>
+        <h1>{title}</h1>
+        <h2>{tech[0]}</h2>
+        <h3>{version}</h3>
       </div>
     );
   }
 }
 
+App.propTypes = {
+  title: PropTypes.string.isRequired,
+  version: PropTypes.number.isRequired
+}
 export default App;

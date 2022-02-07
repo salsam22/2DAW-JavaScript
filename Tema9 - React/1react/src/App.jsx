@@ -1,31 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import PropTypes from 'prop-types';
+import Header from './components/header';
+import Paragraph from './components/paragraph';
+import Formulari from './components/formulari';
 
 class App extends React.Component {
-  static defaultProps = {
-    title: "Default title",
-      version: 0,
-    }
-    
-    render() {
-      const title = this.props.title;
-      const tech = this.props.tech;
-      const version = this.props.version;
-      
-      return (
-        <div>
-        <h1>{title}</h1>
-        <h2>{tech[0]}</h2>
-        <h3>{version}</h3>
+  showMesg(msg) {
+    alert('This button works ' + msg)
+  }
+  render (){
+    return (
+      <div className='App'>
+        <Header logo={logo}/>
+        <Paragraph shMsg={this.showMesg} />
+        <Formulari/>
       </div>
-    );
+    )
   }
 }
 
-App.propTypes = {
-  title: PropTypes.string.isRequired,
-  version: PropTypes.number.isRequired
-}
 export default App;

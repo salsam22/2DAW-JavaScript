@@ -4,17 +4,35 @@ import './App.css';
 
 function App() {
 
-    const [state, setState] = useState(initialState)
+
 
     return (
         <div className="App">
-            <p>Nova Tasca</p>
-            <div>
-                <input type='text' name='tasca' id='tasca' />
-                <button>Afegir Tasca</button>
-            </div>
-            <p>Tasques: </p>
+            <div className='container'>
+                <div className='row'>
+                    <div className='col-12 text-center'>
+                        <h1>Nova Tasca</h1>
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-12'>
+                        <form>
+                            <input type='text' name='tasca' id='tasca' className='form-control mt-4'/>
+                            <button className='btn btn-primary mt-4' type='submit'>Afegir Tasca</button>
+                        </form>
+                    </div>
+                </div>
+                <div className='row mt-4'>
+                    <div className='col-12 text-center'>
+                        <h3>Tasques: </h3>
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-12'>
 
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }

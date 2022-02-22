@@ -1,13 +1,22 @@
 import React from "react";
-
-import { Formik, Form, Field } from "formik";
+import { Button } from 'react-bootstrap';
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 import * as Yup from 'yup';
 
 const SignupSchema = Yup.object().shape({
-    name: Yup.string().min(6, 'Too Short!').max(255, 'Too Long!').required('Required'),
-    email: Yup.string().min(6, 'Too Short!').max(1024, 'Too Long!').email('Invalid email').required('Required'),
-    password: Yup.string().min(6, 'Too Short!').required('Required'),
+    name: Yup.string()
+            .min(6, 'Too Short!')
+            .max(255, 'Too Long!')
+            .required('Required'),
+    email: Yup.string()
+            .min(6, 'Too Short!')
+            .max(1024, 'Too Long!')
+            .email('Invalid email')
+            .required('Required'),
+    password: Yup.string()
+            .min(6, 'Too Short!')
+            .required('Required'),
     passwordc: Yup.string()
             .min(6, 'Too Short!')
             .max(20, 'Too Long!')
@@ -26,7 +35,6 @@ function Register() {
             >
                 {({ errors, touched }) => (
                     <div>
-
                         <div className="row mb-5">
                             <div className="col-lg-12">
                                 <h1 className="mt-5">Registrar nuevo usuario</h1>
@@ -34,8 +42,8 @@ function Register() {
                         </div>
                         <Form>
                         <div className="mb-3 row">
-                                <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
-                                <div className="col-sm-10">
+                                <div className="col-12">
+                                    <label htmlFor="name">Name</label>
                                     <Field
                                         type="text"
                                         name="name"
@@ -43,56 +51,66 @@ function Register() {
                                         autoComplete="off"
                                         className="form-control"
                                     />
-                                    {errors.name && touched.name ?
-                                        <div>{errors.name}</div> : null}
-                                </div>
-                            </div>
-                            <div className="mb-3 row">
-                                <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
-                                <div className="col-sm-10">
-                                    <Field
-                                        type="email"
-                                        name="email"
-                                        placeholder="Introduce email"
-                                        autoComplete="off"
-                                        className="form-control"
+                                    <ErrorMessage
+                                        name='name'
+                                        component='div'
+                                        className='field-error text-danger'
                                     />
-                                    {errors.email && touched.email ?
-                                        <div>{errors.email}</div> : null}
                                 </div>
                             </div>
-                            <div className="mb-3 row">
-                                <label htmlFor="password" className="col-sm-2 col-form-label">Contraseña</label>
-                                <div className="col-sm-10">
-                                    <Field
-                                        type="password"
-                                        name="password"
-                                        placeholder="Introduce contraseña"
-                                        className="form-control"
-                                    />
-                                    {errors.password && touched.password ? (
-                                        <div>{errors.password}</div>) : null}
+                            <div className="form-group">
+                                <div className="mb-3 row">
+                                    <div className="col-12">
+                                        <label htmlFor="email">Email</label>
+                                        <Field
+                                            type="email"
+                                            name="email"
+                                            placeholder="Introduce email"
+                                            autoComplete="off"
+                                            className="form-control"
+                                        />
+                                        <ErrorMessage
+                                            name='email'
+                                            component='div'
+                                            className='field-error text-danger'
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                            <div className="mb-3 row">
-                                <label htmlFor="passwordc" className="col-sm-2 col-form-label">Repetir contraseña</label>
-                                <div className="col-sm-10">
-                                    <Field
-                                        type="password"
-                                        name="passwordc"
-                                        placeholder="Introduce contraseña repetida"
-                                        className="form-control"
-                                    />
-                                    {errors.password && touched.password ? (
-                                        <div>{errors.password}</div>) : null}
+                            <div className='form-group'>
+                                <div className="row">
+                                    <div className="col">
+                                        <label htmlFor='password'>Contraseña</label>
+                                        <Field
+                                            type='password'
+                                            name='password'
+                                            placeholder='Introducir contraseña'
+                                            className='form-control'
+                                        />
+                                        <ErrorMessage
+                                            name='password'
+                                            component='div'
+                                            className='field-error text-danger'
+                                        />
+                                    </div>
+                                    <div className="col">
+                                        <label htmlFor='passwordc'>Repetir contraseña</label>
+                                        <Field
+                                            type='password'
+                                            name='passwordc'
+                                            placeholder='Repetir contraseña'
+                                            className='form-control'
+                                        />
+                                        <ErrorMessage
+                                            name='passwordc'
+                                            component='div'
+                                            className='field-error text-danger'
+                                        />
+                                    </div>
                                 </div>
+
+                                <Button type='submit' className='mt-3'>Registrar</Button>
                             </div>
-                            <button
-                                type="submit"
-                                className="btn btn-primary btn-block mt-4"
-                            >
-                                Enviar
-                            </button>
                         </Form>
                     </div>
                 )}

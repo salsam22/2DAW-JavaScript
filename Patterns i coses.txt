@@ -1,0 +1,54 @@
+^[A-Za-z- ]{2,20}$ 			                          -->   El nombre tiene que tener entre 2 y 20 caracteres.
+^[A-Za-z- ]{2,30}$  			                          -->   El apellido tiene que tener entre 2 y 30 caracteres.
+^\d{8}[A-Z]{1}$     			                          -->   DNI amb format 12345678Z.
+^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$                          -->   Correu electronic amb format exemple@exemple.com.
+^[A-Za-z]{2,8}$                                                   -->   Lletres amb un minim de 2 i un maxim de 8 sense espais ni numeros.
+^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{6,15}$                       -->   La contraseña (entre 6 y 15, con una o más mayúsculas, 1 o más números y 1 o más caracteres).
+^(-\d{0,2}||\d{0,2})$                                             -->   Captcha valors positius i negatius de 1 o 2 digits.
+^[A-Z a-z 1-9]{2,60}$                                             -->   Paraules amb espais i numeros de 2 a 60 caracters.
+^\d{3}\s\d{3}\s\d{3}$$                                            -->   Numero de telefono 999 999 999.
+^\d{4}[A-Z]{3}$|^[A-Z]{1}\d{4}[A-Z]{2}$|^[A-Z]{1}\d{4}[A-Z]{3}$   -->   Matricules diferents A1234BB, 1234BBB, B1234BBB
+^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$              -->   Fecha con formato YYYY/mm/dd.
+^(ftp|http|https)[^ "]+$                                          -->   Url que començe per ftp/http/https.
+^\d{3}[A-Z]{4}([1-2]|[A])$                                        -->   3 numeros, 4 letras mayusculas y un 1, o un 2, o una A mayuscula.
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+var ticket = new Array();
+if (JSON.parse(localStorage.getItem("Ticket")) != null {
+	ticket = JSON.parse(localStorage.getItem("Ticket"));
+}
+var producto = {
+        "nombre":pedido[cont].nombreArticulo,
+        "precio":pedido[cont].precioArticulo,
+        "talla":talla.value,
+        "foto":pedido[cont].imagen
+}
+ticket[0].productos.push(producto);
+localStorage.setItem("Ticket", JSON.stringify(ticket));
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+LOGIN TO API
+
+function loginAPI() {
+    var usuario = {
+        "email": document.getElementById("email").value,
+        "password": document.getElementById("password").value
+    }
+    fetch("https://userprofile.serverred.es/api/login", {
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body:JSON.stringify(usuario)
+    })
+        .then(response => response.json())
+        .then(data =>{ 
+            var token = data.data.token;
+            localStorage.setItem("TK", JSON.stringify(token));
+            window.location.href = "areaPersonal.html";
+        })
+        .catch(error=>console.log(error));
+}

@@ -24,12 +24,32 @@ const SignupSchema = Yup.object().shape({
 });
 
 function Register() {
+    const register = (value) =>{
+        let user = {
+            'name':value.name,
+            'email':value.email,
+            'password':value.password
+        }
+        fetch('https://api.tendaciclista.ccpegoilesvalls.es/api/register', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            
+        })
+        
+    }
+
     return (
         <div>
             <Formik initialValues={{ name: "", email: "", password: ""}}
                 validationSchema={SignupSchema}
                 onSubmit={values => {
                     console.log(values);
+                    register(values);
                 }}
             >
                 {({ errors, touched }) => (

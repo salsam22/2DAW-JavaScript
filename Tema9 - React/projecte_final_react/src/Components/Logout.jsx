@@ -5,6 +5,11 @@ import {
 } from 'react-bootstrap/';
 
 function Logout() {
+    const logout = (e) => {
+        e.preventDefault();
+        localStorage.removeItem("tk");
+        window.location.href = '/';
+    }
     return (
         <div>
             <h1>
@@ -13,7 +18,7 @@ function Logout() {
             <h3>
                 Quieres salir de tu perfil de usuario?
             </h3>
-            <Form>
+            <Form onSubmit={logout}>
                 <Button variant="primary" type="submit">
                     Salir
                 </Button>

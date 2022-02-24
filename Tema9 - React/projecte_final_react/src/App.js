@@ -7,6 +7,7 @@ import Login from './Components/Login'
 import Logout from './Components/Logout'
 import Register from './Components/Register'
 import Index from './Components/Index'
+import Error from './Components/404'
 import {
   Routes,
   Route
@@ -24,6 +25,7 @@ function App() {
           <Route path="/register" element={<Register />}/>
           <Route path="/logout" element={<Logout />}/>
           <Route path="/productos" element={<Productos />}/>
+          <Route path='*' element={<Error/>}/>
         </Routes>
         <Footer />
       </Container>

@@ -25,6 +25,7 @@ const SignupSchema = Yup.object().shape({
 
 function Register() {
     const register = (value) =>{
+        console.log("AA");
         let user = {
             'name':value.name,
             'email':value.email,

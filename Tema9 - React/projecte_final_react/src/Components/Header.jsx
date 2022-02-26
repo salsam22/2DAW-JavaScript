@@ -16,9 +16,9 @@ class Header extends Component {
                         <Nav className="mr-auto">
                             <Nav.Link href="/">Home</Nav.Link>
                             <Nav.Link href="/productos">Productos</Nav.Link>
-                            <Nav.Link href="#">Pedidos</Nav.Link>
+                            <Nav.Link href="/pedidos">Pedidos</Nav.Link>
                             <NavDropdown title="Area Personal" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/">Area Personal</NavDropdown.Item>
+                                <NavDropdown.Item href="/areaPersonal">Area Personal</NavDropdown.Item>
                                 <NavDropdown.Item href="/register">Registrarse</NavDropdown.Item>
                                 <NavDropdown.Item href="/login">Login</NavDropdown.Item>
                                 <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
